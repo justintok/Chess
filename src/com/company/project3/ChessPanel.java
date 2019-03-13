@@ -1,8 +1,9 @@
 package com.company.project3;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ChessPanel extends JPanel {
 
@@ -21,7 +22,7 @@ public class ChessPanel extends JPanel {
     private int toRow;
     private int fromCol;
     private int toCol;
-    // declare other intance variables as needed
+    // declare other instance variables as needed
 
     private listener listener;
 
@@ -42,7 +43,6 @@ public class ChessPanel extends JPanel {
                     board[r][c].addActionListener(listener);
                 } else if (model.pieceAt(r, c).player() == Player.WHITE)
                     placeWhitePieces(r, c);
-
                 setBackGroundColor(r, c);
                 boardpanel.add(board[r][c]);
             }
@@ -56,8 +56,12 @@ public class ChessPanel extends JPanel {
     private void setBackGroundColor(int r, int c) {
         if ((c % 2 == 1 && r % 2 == 0) || (c % 2 == 0 && r % 2 == 1)) {
             board[r][c].setBackground(Color.LIGHT_GRAY);
+            board[r][c].setOpaque(true);
+            board[r][c].setBorderPainted(false);
         } else if ((c % 2 == 0 && r % 2 == 0) || (c % 2 == 1 && r % 2 == 1)) {
             board[r][c].setBackground(Color.WHITE);
+            board[r][c].setOpaque(true);
+            board[r][c].setBorderPainted(false);
         }
     }
 
@@ -89,13 +93,14 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
+        String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
         // Sets the Image for white player pieces
-        wRook = new ImageIcon("wRook.png");
-        wBishop = new ImageIcon("wBishop.png");
-        wQueen = new ImageIcon("wQueen.png");
-        wKing = new ImageIcon("wKing.png");
-        wPawn = new ImageIcon("wPawn.png");
-        wKnight = new ImageIcon("wKnight.png");
+        wRook = new ImageIcon(path + "wRook.png");
+        wBishop = new ImageIcon(path + "wBishop.png");
+        wQueen = new ImageIcon(path + "wQueen.png");
+        wKing = new ImageIcon(path + "wKing.png");
+        wPawn = new ImageIcon(path + "wPawn.png");
+        wKnight = new ImageIcon(path + "wKnight.png");
     }
 
     // method that updates the board
@@ -139,6 +144,7 @@ public class ChessPanel extends JPanel {
                         if (firstTurnFlag == true) {
                             fromRow = r;
                             fromCol = c;
+                            board[r][c].setBackground(Color.GREEN);
                             firstTurnFlag = false;
                         } else {
                             toRow = r;
@@ -149,6 +155,7 @@ public class ChessPanel extends JPanel {
                                 model.move(m);
                                 displayBoard();
                             }
+                            setBackGroundColor(fromRow,fromCol);
                         }
         }
     }
