@@ -93,7 +93,12 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
+        String path = "C:\\Users\\Lazyr\\IdeaProjects\\Chess\\";
+        //Our paths Copy yours and put it here ^
+
+        // C:\Users\Lazyr\IdeaProjects\Chess\
+        // /Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/
+
         // Sets the Image for white player pieces
         wRook = new ImageIcon(path + "wRook.png");
         wBishop = new ImageIcon(path + "wBishop.png");
