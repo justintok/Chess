@@ -15,6 +15,7 @@ public class ChessModel implements IChessModel {
 		board = new IChessPiece[8][8];
 		player = Player.WHITE;
 
+		//Adds White pieces to the board
 		board[0][0] = new Rook(Player.BLACK);
 		board[0][1] = new Knight(Player.BLACK);
 		board[0][2] = new Bishop(Player.BLACK);
@@ -32,6 +33,7 @@ public class ChessModel implements IChessModel {
 		board[1][6] = new Pawn(Player.BLACK);
 		board[1][7] = new Pawn(Player.BLACK);
 
+		//Adds Black pieces to the board
 		board[7][0] = new Rook(Player.WHITE);
 		board[7][1] = new Knight(Player.WHITE);
 		board[7][2] = new Bishop(Player.WHITE);
