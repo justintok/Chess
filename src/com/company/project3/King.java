@@ -16,9 +16,7 @@ public class King extends ChessPiece {
 	public boolean isValidMove(Move move, IChessPiece[][] board) {
 		boolean valid = false;
 
-		//if(super.isValidMove(move, board)) {
-
-			Queen move1 = new Queen(board[move.fromRow][move.fromColumn].player());
+		Queen move1 = new Queen(board[move.fromRow][move.fromColumn].player());
 
 			if (ChessModel.kingFirstMove) { //Castling Function
 				if (move.toRow == 7) {
@@ -31,13 +29,13 @@ public class King extends ChessPiece {
 					}
 				}
 				//else, check for a normal move
-				if (move1.isValidMove(move, board) && (Math.abs(move.toRow - move.fromRow) == 1) && (Math.abs(move.toColumn - move.fromColumn) == 1))
+				if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1)))
 					valid = true;
 			}
 			//else, check for a normal move
-			else if (move1.isValidMove(move, board) && (Math.abs(move.toRow - move.fromRow) == 1) && (Math.abs(move.toColumn - move.fromColumn) == 1))
+			else if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1)))
 				valid = true;
-		//}
+
 		return valid;
 	}
 }
