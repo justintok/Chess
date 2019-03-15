@@ -17,6 +17,13 @@ public class ChessPanel extends JPanel {
     private ImageIcon wPawn;
     private ImageIcon wKnight;
 
+    private ImageIcon bRook;
+    private ImageIcon bBishop;
+    private ImageIcon bQueen;
+    private ImageIcon bKing;
+    private ImageIcon bPawn;
+    private ImageIcon bKnight;
+
     private boolean firstTurnFlag;
     private int fromRow;
     private int toRow;
@@ -43,6 +50,8 @@ public class ChessPanel extends JPanel {
                     board[r][c].addActionListener(listener);
                 } else if (model.pieceAt(r, c).player() == Player.WHITE)
                     placeWhitePieces(r, c);
+                else if (model.pieceAt(r, c).player() == Player.BLACK)
+                    placeBlackPieces(r, c);
                 setBackGroundColor(r, c);
                 boardpanel.add(board[r][c]);
             }
@@ -92,6 +101,33 @@ public class ChessPanel extends JPanel {
         }
     }
 
+    private void placeBlackPieces(int r, int c) {
+        if (model.pieceAt(r, c).type().equals("Pawn")) {
+            board[r][c] = new JButton(null, bPawn);
+            board[r][c].addActionListener(listener);
+        }
+        if (model.pieceAt(r, c).type().equals("Rook")) {
+            board[r][c] = new JButton(null, bRook);
+            board[r][c].addActionListener(listener);
+        }
+        if (model.pieceAt(r, c).type().equals("Knight")) {
+            board[r][c] = new JButton(null, bKnight);
+            board[r][c].addActionListener(listener);
+        }
+        if (model.pieceAt(r, c).type().equals("Bishop")) {
+            board[r][c] = new JButton(null, bBishop);
+            board[r][c].addActionListener(listener);
+        }
+        if (model.pieceAt(r, c).type().equals("Queen")) {
+            board[r][c] = new JButton(null, bQueen);
+            board[r][c].addActionListener(listener);
+        }
+        if (model.pieceAt(r, c).type().equals("King")) {
+            board[r][c] = new JButton(null, bKing);
+            board[r][c].addActionListener(listener);
+        }
+    }
+
     private void createIcons() {
         String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
         //Our paths Copy yours and put it here ^
@@ -107,6 +143,14 @@ public class ChessPanel extends JPanel {
         wKing = new ImageIcon(path + "wKing.png");
         wPawn = new ImageIcon(path + "wPawn.png");
         wKnight = new ImageIcon(path + "wKnight.png");
+
+        // Sets the Image for black player pieces
+        bRook = new ImageIcon(path + "bRook.png");
+        bBishop = new ImageIcon(path + "bBishop.png");
+        bQueen = new ImageIcon(path + "bQueen.png");
+        bKing = new ImageIcon(path + "bKing.png");
+        bPawn = new ImageIcon(path + "bPawn.png");
+        bKnight = new ImageIcon(path + "bKnight.png");
     }
 
     // method that updates the board
