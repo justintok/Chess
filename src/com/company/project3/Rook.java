@@ -37,7 +37,7 @@ public class Rook extends ChessPiece {
 
 	public boolean noJump(Move move,IChessPiece[][] board) {
 		//This method is not working correctly yet. I do not think this is the best way to do this either.
-		//**Update** Up and left movement is working, but it still jumps over down and right.
+		//**Update** All directions should be working. I simply changed the < sign to a > in the right/down loop.
 
 		// It is suppose to count the number of spaced you move, then go through all those spaced and find out if there is a
 		//piece there. If there is one, return true.
@@ -57,7 +57,7 @@ public class Rook extends ChessPiece {
 			}
 		}
 		if (movedSpaces < 0) { //checks if you are going down or right.
-			for (int i = -1; i < movedSpaces; i--) {
+			for (int i = -1; i > movedSpaces; i--) {
 				if (move.toColumn == move.fromColumn)
 					if (board[move.fromRow - i][move.fromColumn ] != null) {
 						return true;
