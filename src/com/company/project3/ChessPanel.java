@@ -93,9 +93,10 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "C:\\Users\\Lazyr\\IdeaProjects\\Chess\\";
+        String path = "C:\\Users\\Jason\\Desktop\\cis163\\ChessGit\\";
         //Our paths Copy yours and put it here ^
 
+        // C:\Users\Jason\Desktop\cis163\ChessGit
         // C:\Users\Lazyr\IdeaProjects\Chess\
         // /Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/
 
