@@ -1,6 +1,6 @@
 package com.company.project3;
 
-public class King extends ChessPiece {
+public class 	King extends ChessPiece {
 
 	//protected static boolean kingFirstMove;
 

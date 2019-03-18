@@ -1,6 +1,8 @@
 package com.company.project3;
 
-public class ChessModel implements IChessModel {	 
+import javax.swing.*;
+
+public class ChessModel implements IChessModel {
     private IChessPiece[][] board;
 	private Player player;
 
@@ -31,7 +33,7 @@ public class ChessModel implements IChessModel {
 		board[1][4] = new Pawn(Player.BLACK);
 		board[1][5] = new Pawn(Player.BLACK);
 		board[1][6] = new Pawn(Player.BLACK);
-		board[1][7] = new Pawn(Player.BLACK);
+		//board[1][7] = new Pawn(Player.BLACK);
 
 		//Adds Black pieces to the board
 		board[7][0] = new Rook(Player.WHITE);
@@ -51,6 +53,59 @@ public class ChessModel implements IChessModel {
 		board[6][6] = new Pawn(Player.WHITE);
 		board[6][7] = new Pawn(Player.WHITE);
 
+//		board[0][0] = new Rook(Player.BLACK);
+//		board[0][1] = new Knight(Player.BLACK);
+//		board[0][2] = new Bishop(Player.BLACK);
+//		board[0][3] = new Queen(Player.BLACK);
+//		board[0][4] = new King(Player.BLACK);
+//		board[0][5] = new Bishop(Player.BLACK);
+//		board[0][6] = new Knight(Player.BLACK);
+//		board[0][7] = new Rook(Player.BLACK);
+//		board[1][0] = new Pawn(Player.BLACK);
+//		board[1][1] = new Pawn(Player.BLACK);
+//		board[1][2] = new Pawn(Player.BLACK);
+//		board[1][3] = new Pawn(Player.BLACK);
+//		board[1][4] = new Pawn(Player.BLACK);
+//		board[1][5] = new Pawn(Player.BLACK);
+//		board[1][6] = new Pawn(Player.BLACK);
+//		board[1][7] = new Pawn(Player.BLACK);
+
+//        bRook = new ImageIcon(path + "bRook.png");
+//        bBishop = new ImageIcon(path + "bBishop.png");
+//        bQueen = new ImageIcon(path + "bQueen.png");
+//        bKing = new ImageIcon(path + "bKing.png");
+//        bPawn = new ImageIcon(path + "bPawn.png");
+//        bKnight = new ImageIcon(path + "bKnight.png");
+//
+//        private ImageIcon bRook;
+//        private ImageIcon bBishop;
+//        private ImageIcon bQueen;
+//        private ImageIcon bKing;
+//        private ImageIcon bPawn;
+//        private ImageIcon bKnight;
+//
+//    else
+//        if (model.pieceAt(r, c).player() == Player.BLACK) {
+//            if (model.pieceAt(r, c).type().equals("Pawn"))
+//                board[r][c].setIcon(bPawn);
+//
+//            if (model.pieceAt(r, c).type().equals("Rook"))
+//                board[r][c].setIcon(bRook);
+//
+//            if (model.pieceAt(r, c).type().equals("Knight"))
+//                board[r][c].setIcon(bKnight);
+//
+//            if (model.pieceAt(r, c).type().equals("Bishop"))
+//                board[r][c].setIcon(bBishop);
+//
+//            if (model.pieceAt(r, c).type().equals("Queen"))
+//                board[r][c].setIcon(bQueen);
+//
+//            if (model.pieceAt(r, c).type().equals("King"))
+//                board[r][c].setIcon(bKing);
+//
+//        }
+
 		kingFirstMove = true;
 		rookLeftFirstMove = true;
 		rookRightFirstMove = true;
@@ -64,13 +119,58 @@ public class ChessModel implements IChessModel {
 	}
 
 	public boolean isValidMove(Move move) {
-		boolean valid = false;
+
+		if (pieceAt(move.fromRow,move.fromColumn).type()=="King"){
+			if (inCheck(move,currentPlayer())){
+				return false;
+			}
+		}
 
 		if (board[move.fromRow][move.fromColumn] != null)
 			if (board[move.fromRow][move.fromColumn].isValidMove(move, board) == true)
                 return true;
 
-		return valid;
+		return false;
+	}
+
+	public boolean inCheck(Move move, Player p){
+		Rook rooktest= new Rook(p);
+		for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
+				if ((pieceAt(r, c).player() != null))
+				if (pieceAt(r, c).player() != player.BLACK){
+					if (pieceAt(r, c).type().equals("Rook")) {
+						Move rMove = new Move(r,c,move.toRow,move.toColumn);
+						if (rooktest.isValidMove(rMove,board) == true){
+							return true;
+						}
+
+					}
+					if (pieceAt(r, c).type().equals("Knight")) {
+
+					}
+					if (pieceAt(r, c).type().equals("Queen")) {
+
+					}
+					if (pieceAt(r, c).type().equals("Pawn")) {
+
+					}
+					if (pieceAt(r, c).type().equals("Bishop")) {
+
+					}
+					if (pieceAt(r, c).type().equals("King")) {
+
+					}
+
+
+				}
+
+
+			}
+		}
+
+
+		return true;
 	}
 
 	public void move(Move move) {
