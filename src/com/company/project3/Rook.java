@@ -36,8 +36,7 @@ public class Rook extends ChessPiece {
 	}
 
 	public boolean noJump(Move move,IChessPiece[][] board) {
-		//This method is not working correctly yet. I do not think this is the best way to do this either.
-		//**Update** All directions should be working. I simply changed the < sign to a > in the right/down loop.
+		//**Update** All directions should be working.
 
 		// It is suppose to count the number of spaced you move, then go through all those spaced and find out if there is a
 		//piece there. If there is one, return true.

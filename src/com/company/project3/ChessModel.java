@@ -67,11 +67,9 @@ public class ChessModel implements IChessModel {
 
 	public boolean isValidMove(Move move) {
 
-		if (pieceAt(move.fromRow,move.fromColumn).type()=="King"){
-			if (inCheck(move,currentPlayer())){
+		if (pieceAt(move.fromRow,move.fromColumn).type()=="King")
+			if (inCheck(move,currentPlayer()))
 				return false;
-			}
-		}
 
 		if (board[move.fromRow][move.fromColumn] != null)
 			if (board[move.fromRow][move.fromColumn].isValidMove(move, board) == true)

@@ -14,28 +14,35 @@ public class 	King extends ChessPiece {
 	}
 
 	public boolean isValidMove(Move move, IChessPiece[][] board) {
-		boolean valid = false;
 
+		//Uses a Queen object to check for valid move
 		Queen move1 = new Queen(board[move.fromRow][move.fromColumn].player());
 
-			if (ChessModel.kingFirstMove) { //Castling Function
-				if (move.toRow == 7) {
-					if (move.toColumn == 2 && ChessModel.rookLeftFirstMove) {
-						ChessModel.castling = "L";
-						valid = true;
-					} else if (move.toColumn == 6 && ChessModel.rookRightFirstMove) {
-						ChessModel.castling = "R";
-						valid = true;
-					}
+		//determines which King (Black/White) is being moved, and then which row they are in..
+		int c;
+		if(board[move.fromRow][move.fromColumn].player() == Player.BLACK)
+			c = 0;
+		else
+			c = 7;
+
+		if (ChessModel.kingFirstMove) { //Castling Function
+			if (move.toRow == c) {
+				if (move.toColumn == 2 && ChessModel.rookLeftFirstMove) {
+					ChessModel.castling = "L";
+					return true;
+				} else if (move.toColumn == 6 && ChessModel.rookRightFirstMove) {
+					ChessModel.castling = "R";
+					return true;
 				}
-				//else, check for a normal move
-				if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1)))
-					valid = true;
 			}
 			//else, check for a normal move
-			else if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1)))
-				valid = true;
+			if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1)))
+				return true;
+		}
+		//else, check for a normal move
+		else if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1)))
+			return true;
 
-		return valid;
+		return false;
 	}
 }
