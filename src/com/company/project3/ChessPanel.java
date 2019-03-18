@@ -129,7 +129,7 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "C:\\Users\\Jason\\Desktop\\cis163\\ChessGit\\";
+        String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
         //Our paths Copy yours and put it here ^
 
         // C:\Users\Jason\Desktop\cis163\ChessGit\\
@@ -194,8 +194,10 @@ public class ChessPanel extends JPanel {
                         if (firstTurnFlag == true) {
                             fromRow = r;
                             fromCol = c;
-                            board[r][c].setBackground(Color.GREEN);
-                            firstTurnFlag = false;
+                            if(model.pieceAt(r,c) != null && model.currentPlayer() == model.pieceAt(r,c).player()){
+                                board[r][c].setBackground(Color.GREEN);
+                                firstTurnFlag = false;
+                            }
                         } else {
                             toRow = r;
                             toCol = c;

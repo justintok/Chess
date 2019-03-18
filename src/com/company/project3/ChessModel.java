@@ -17,7 +17,7 @@ public class ChessModel implements IChessModel {
 		board = new IChessPiece[8][8];
 		player = Player.WHITE;
 
-		//Adds White pieces to the board
+		//Adds Black pieces to the board
 		board[0][0] = new Rook(Player.BLACK);
 		board[0][1] = new Knight(Player.BLACK);
 		board[0][2] = new Bishop(Player.BLACK);
@@ -33,9 +33,9 @@ public class ChessModel implements IChessModel {
 		board[1][4] = new Pawn(Player.BLACK);
 		board[1][5] = new Pawn(Player.BLACK);
 		board[1][6] = new Pawn(Player.BLACK);
-		//board[1][7] = new Pawn(Player.BLACK);
+		board[1][7] = new Pawn(Player.BLACK);
 
-		//Adds Black pieces to the board
+		//Adds White pieces to the board
 		board[7][0] = new Rook(Player.WHITE);
 		board[7][1] = new Knight(Player.WHITE);
 		board[7][2] = new Bishop(Player.WHITE);
@@ -52,59 +52,6 @@ public class ChessModel implements IChessModel {
 		board[6][5] = new Pawn(Player.WHITE);
 		board[6][6] = new Pawn(Player.WHITE);
 		board[6][7] = new Pawn(Player.WHITE);
-
-//		board[0][0] = new Rook(Player.BLACK);
-//		board[0][1] = new Knight(Player.BLACK);
-//		board[0][2] = new Bishop(Player.BLACK);
-//		board[0][3] = new Queen(Player.BLACK);
-//		board[0][4] = new King(Player.BLACK);
-//		board[0][5] = new Bishop(Player.BLACK);
-//		board[0][6] = new Knight(Player.BLACK);
-//		board[0][7] = new Rook(Player.BLACK);
-//		board[1][0] = new Pawn(Player.BLACK);
-//		board[1][1] = new Pawn(Player.BLACK);
-//		board[1][2] = new Pawn(Player.BLACK);
-//		board[1][3] = new Pawn(Player.BLACK);
-//		board[1][4] = new Pawn(Player.BLACK);
-//		board[1][5] = new Pawn(Player.BLACK);
-//		board[1][6] = new Pawn(Player.BLACK);
-//		board[1][7] = new Pawn(Player.BLACK);
-
-//        bRook = new ImageIcon(path + "bRook.png");
-//        bBishop = new ImageIcon(path + "bBishop.png");
-//        bQueen = new ImageIcon(path + "bQueen.png");
-//        bKing = new ImageIcon(path + "bKing.png");
-//        bPawn = new ImageIcon(path + "bPawn.png");
-//        bKnight = new ImageIcon(path + "bKnight.png");
-//
-//        private ImageIcon bRook;
-//        private ImageIcon bBishop;
-//        private ImageIcon bQueen;
-//        private ImageIcon bKing;
-//        private ImageIcon bPawn;
-//        private ImageIcon bKnight;
-//
-//    else
-//        if (model.pieceAt(r, c).player() == Player.BLACK) {
-//            if (model.pieceAt(r, c).type().equals("Pawn"))
-//                board[r][c].setIcon(bPawn);
-//
-//            if (model.pieceAt(r, c).type().equals("Rook"))
-//                board[r][c].setIcon(bRook);
-//
-//            if (model.pieceAt(r, c).type().equals("Knight"))
-//                board[r][c].setIcon(bKnight);
-//
-//            if (model.pieceAt(r, c).type().equals("Bishop"))
-//                board[r][c].setIcon(bBishop);
-//
-//            if (model.pieceAt(r, c).type().equals("Queen"))
-//                board[r][c].setIcon(bQueen);
-//
-//            if (model.pieceAt(r, c).type().equals("King"))
-//                board[r][c].setIcon(bKing);
-//
-//        }
 
 		kingFirstMove = true;
 		rookLeftFirstMove = true;
@@ -134,43 +81,65 @@ public class ChessModel implements IChessModel {
 	}
 
 	public boolean inCheck(Move move, Player p){
-		Rook rooktest= new Rook(p);
+		Player p2;
+		if(p == player.WHITE){
+			p2 = player.BLACK;
+		}else{
+			p2 = player.WHITE;
+		}
+
+		Rook rookTest = new Rook(p2);
+		Knight knightTest = new Knight(p2);
+		Queen queenTest = new Queen(p2);
+		Pawn pawnTest = new Pawn(p2);
+		Bishop bishopTest = new Bishop(p2);
+		King kingTest = new King(p2);
+
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
-				if ((pieceAt(r, c).player() != null))
-				if (pieceAt(r, c).player() != player.BLACK){
+				if ((pieceAt(r, c) != null))
+				if (pieceAt(r, c).player() == p2){
 					if (pieceAt(r, c).type().equals("Rook")) {
-						Move rMove = new Move(r,c,move.toRow,move.toColumn);
-						if (rooktest.isValidMove(rMove,board) == true){
+						Move m = new Move(r,c,move.toRow,move.toColumn);
+						if (rookTest.isValidMove(m,board)){
 							return true;
 						}
-
 					}
 					if (pieceAt(r, c).type().equals("Knight")) {
-
+						Move m = new Move(r,c,move.toRow,move.toColumn);
+						if (knightTest.isValidMove(m,board)){
+							return true;
+						}
 					}
 					if (pieceAt(r, c).type().equals("Queen")) {
-
+						Move m = new Move(r,c,move.toRow,move.toColumn);
+						if (queenTest.isValidMove(m,board)){
+							return true;
+						}
 					}
 					if (pieceAt(r, c).type().equals("Pawn")) {
-
+						Move m = new Move(r,c,move.toRow,move.toColumn);
+						if (pawnTest.isValidMove(m,board)){
+							return true;
+						}
 					}
 					if (pieceAt(r, c).type().equals("Bishop")) {
-
+						Move m = new Move(r,c,move.toRow,move.toColumn);
+						if (bishopTest.isValidMove(m,board)){
+							return true;
+						}
 					}
 					if (pieceAt(r, c).type().equals("King")) {
-
+						Move m = new Move(r,c,move.toRow,move.toColumn);
+						if (kingTest.isValidMove(m,board)){
+							return true;
+						}
 					}
-
-
 				}
-
-
 			}
 		}
 
-
-		return true;
+		return false;
 	}
 
 	public void move(Move move) {
