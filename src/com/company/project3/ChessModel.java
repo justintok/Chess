@@ -62,8 +62,21 @@ public class ChessModel implements IChessModel {
 
 	public boolean isComplete() {
 		boolean valid = false;
+		Move testMove = new Move();
+
+		for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
+				if (pieceAt(r, c).type().equals("King")) {
+					testMove.fromRow = r;
+					testMove.fromColumn = c;
+
+				}
+			}
+		}
+
 		return valid;
 	}
+
 
 	public boolean isValidMove(Move move) {
 
@@ -139,6 +152,8 @@ public class ChessModel implements IChessModel {
 
 		return false;
 	}
+
+
 
 	public void move(Move move) {
 		checkForFirstMove(move);
