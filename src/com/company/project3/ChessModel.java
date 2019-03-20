@@ -109,22 +109,24 @@ public class ChessModel implements IChessModel {
 		int kingR=0;
 		int kingC=0;
 
-		for (kingR = 0; kingR < 7; kingR++) {
-			for (kingC = 0; kingC < 7; kingC++) {
-				if (pieceAt(kingR, kingC).player() != null&&pieceAt(kingR, kingC).player() == p) {
+		for (kingR = 0; kingR < 8; kingR++) {
+            for (kingC = 0; kingC < 8; kingC++) {
+                if (pieceAt(kingR, kingC) != null && pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
 
-					if (pieceAt(kingR, kingC).type().equals("King")) {
-						break;
-					}
-				}
+                    if (pieceAt(kingR, kingC).type().equals("King")) {
+                        break;
+                    }
+                }
 
-			}
-			if (pieceAt(kingR, kingC).player() != null&& pieceAt(kingR, kingC).player() == p) {
-				if (pieceAt(kingR, kingC).type().equals("King")) {
-				break;
-				}
-			}
-		}
+            }
+            if (kingC < 8) {
+                if (pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
+                    if (pieceAt(kingR, kingC).type().equals("King")) {
+                        break;
+                    }
+                }
+            }
+        }
 
 
 		for (int r = 0; r < 8; r++) {
