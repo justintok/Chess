@@ -199,7 +199,13 @@ public class ChessPanel extends JPanel {
                             fromCol = c;
                             if(model.pieceAt(r,c) != null && model.currentPlayer() == model.pieceAt(r,c).player()){
                                 board[r][c].setBackground(Color.YELLOW);
-                                model.pieceAt(r,c).showValidMove(r,c,model.board,model.currentPlayer());
+                                for(int x = 0; x < model.numRows(); x++){
+                                    for(int y = 0; y < model.numColumns(); y++){
+                                        if(model.isValidMove(new Move(fromRow,fromCol,x,y))){
+                                            board[x][y].setBackground(Color.GREEN);
+                                        }
+                                    }
+                                }
                                 firstTurnFlag = false;
                             }
                         } else {
@@ -209,9 +215,9 @@ public class ChessPanel extends JPanel {
                             Move m = new Move(fromRow, fromCol, toRow, toCol);
                             if ((model.isValidMove(m)) == true) {
                                 model.move(m);
-                                displayBoard();
                             }
-                            //setBackGroundColor(fromRow,fromCol);
+                            displayBoard();
+                            setBackGroundColor(fromRow,fromCol);
                         }
         }
     }

@@ -28,16 +28,16 @@ public class Knight extends ChessPiece {
 		return valid;
 	}
 
-	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){//Up Left
-		int x = row;
-		int y = col;
-		int i = 1;
-
-		Player p2;
-		if(p == Player.BLACK){
-			p2 = Player.WHITE;
-		}else{
-			p2 = Player.BLACK;
-		}
-	}
+//	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){//Up Left
+//		int x = row;
+//		int y = col;
+//		int i = 1;
+//
+//		Player p2;
+//		if(p == Player.BLACK){
+//			p2 = Player.WHITE;
+//		}else{
+//			p2 = Player.BLACK;
+//		}
+//	}
 }

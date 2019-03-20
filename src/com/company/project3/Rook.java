@@ -73,64 +73,64 @@ public class Rook extends ChessPiece {
 		return false;
 	}
 
-	public void showValidMove(int row, int col,IChessPiece[][] board, Player p){
-		int x = row;
-		int y = col;
-		int i = 1;
-
-		Player p2;
-		if(p == Player.BLACK){
-			p2 = Player.WHITE;
-		}else{
-			p2 = Player.BLACK;
-		}
-
-		//Up
-		if(x > 0) {
-			while (x-i >= 0 && (board[x - i][y] == null || board[x - i][y].player() == p2)) {
-				ChessPanel.board[x - i][y].setBackground(Color.GREEN);
-				if(board[x - i][y] != null && board[x - i][y].player() == p2){
-					break;
-				}
-				i++;
-			}
-			i = 1;
-		}
-
-		//Down
-		if(x < 7) {
-			while (x+i <= 7 && (board[x + i][y] == null || board[x + i][y].player() == p2)) {
-				ChessPanel.board[x + i][y].setBackground(Color.GREEN);
-				if(board[x + i][y] != null && board[x + i][y].player() == p2){
-					break;
-				}
-				i++;
-			}
-			i = 1;
-		}
-
-		//Left
-		if(y > 0) {
-			while (y-i >= 0 && (board[x][y - i] == null || board[x][y - i].player() == p2)) {
-				ChessPanel.board[x][y - i].setBackground(Color.GREEN);
-				if(board[x][y - i] != null && board[x][y - i].player() == p2){
-					break;
-				}
-				i++;
-			}
-			i = 1;
-		}
-
-		//Right
-		if(y < 7) {
-			while (y+i <= 7 && (board[x][y + i] == null || board[x][y + i].player() == p2)) {
-				ChessPanel.board[x][y + i].setBackground(Color.GREEN);
-				if(board[x][y + i] != null && board[x][y + i].player() == p2){
-					break;
-				}
-				i++;
-			}
-		}
-	}
+//	public void showValidMove(int row, int col,IChessPiece[][] board, Player p){
+//		int x = row;
+//		int y = col;
+//		int i = 1;
+//
+//		Player p2;
+//		if(p == Player.BLACK){
+//			p2 = Player.WHITE;
+//		}else{
+//			p2 = Player.BLACK;
+//		}
+//
+//		//Up
+//		if(x > 0) {
+//			while (x-i >= 0 && (board[x - i][y] == null || board[x - i][y].player() == p2)) {
+//				ChessPanel.board[x - i][y].setBackground(Color.GREEN);
+//				if(board[x - i][y] != null && board[x - i][y].player() == p2){
+//					break;
+//				}
+//				i++;
+//			}
+//			i = 1;
+//		}
+//
+//		//Down
+//		if(x < 7) {
+//			while (x+i <= 7 && (board[x + i][y] == null || board[x + i][y].player() == p2)) {
+//				ChessPanel.board[x + i][y].setBackground(Color.GREEN);
+//				if(board[x + i][y] != null && board[x + i][y].player() == p2){
+//					break;
+//				}
+//				i++;
+//			}
+//			i = 1;
+//		}
+//
+//		//Left
+//		if(y > 0) {
+//			while (y-i >= 0 && (board[x][y - i] == null || board[x][y - i].player() == p2)) {
+//				ChessPanel.board[x][y - i].setBackground(Color.GREEN);
+//				if(board[x][y - i] != null && board[x][y - i].player() == p2){
+//					break;
+//				}
+//				i++;
+//			}
+//			i = 1;
+//		}
+//
+//		//Right
+//		if(y < 7) {
+//			while (y+i <= 7 && (board[x][y + i] == null || board[x][y + i].player() == p2)) {
+//				ChessPanel.board[x][y + i].setBackground(Color.GREEN);
+//				if(board[x][y + i] != null && board[x][y + i].player() == p2){
+//					break;
+//				}
+//				i++;
+//			}
+//		}
+//	}
 	
 }

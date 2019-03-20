@@ -33,13 +33,4 @@ public interface IChessPiece {
 	 * @throws IllegalArgumentException  if {@code this} object isn't the piece at location {@code [move.fromRow, move.fromColumn]}.
 	 */
 	boolean isValidMove(Move move, IChessPiece[][] board);
-
-	/************************************************************************************************
-	 * Reveals all valid moves of the currently selected piece
-	 * @param row  The piece's current row
-	 * @param col  The piece's current column
-	 * @param board  The Current layout of all chess pieces
-	 * @param p  The Player that owns the current piece
-	 */
-	void showValidMove(int r, int c, IChessPiece[][] board, Player p);
 }

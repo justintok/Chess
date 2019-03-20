@@ -21,12 +21,15 @@ public class Pawn extends ChessPiece {
 		if(super.isValidMove(move, board)) {
 
 			if (player() == Player.WHITE) {
-				if (firstMove) {
-					if (move.fromRow - move.toRow <= 2 && move.toColumn == move.fromColumn) {
-						valid = true;
-						firstMove = false;
-					}
+				if (move.fromRow - move.toRow == 2 && move.toColumn == move.fromColumn && move.fromRow == 6) {
+					valid = true;
 				} else if (move.fromRow - move.toRow == 1 && move.toColumn == move.fromColumn) {
+					valid = true;
+				}
+			}else{
+				if (move.fromRow - move.toRow == -2 && move.toColumn == move.fromColumn && move.fromRow == 1) {
+					valid = true;
+				} else if (move.fromRow - move.toRow == -1 && move.toColumn == move.fromColumn) {
 					valid = true;
 				}
 			}
@@ -35,5 +38,5 @@ public class Pawn extends ChessPiece {
 		return valid;
 	}
 
-	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
+//	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
 }

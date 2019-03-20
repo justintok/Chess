@@ -18,5 +18,5 @@ public class Queen extends ChessPiece {
 		return move2.isValidMove(move, board) || move1.isValidMove(move, board);
 	}
 
-	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
+//	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
 }
