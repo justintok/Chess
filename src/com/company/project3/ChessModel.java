@@ -146,12 +146,14 @@ public class ChessModel implements IChessModel {
 		board[move.toRow][move.toColumn] = board[move.fromRow][move.fromColumn];
 		board[move.fromRow][move.fromColumn] = null;
 
-		if(castling.equals("L")){
-			board[7][3] = board[7][0];
-			board[7][0] = null;
-		}else if(castling.equals("R")) {
-			board[7][5] = board[7][7];
-			board[7][7] = null;
+		int rPos = move.toRow;
+		int cPos = move.toColumn;
+		if(castling.equals("L") && board[rPos][cPos].type().equals("King") && cPos == 2){
+			board[rPos][3] = board[rPos][0];
+			board[rPos][0] = null;
+		}else if(castling.equals("R") && board[rPos][cPos].type().equals("King") && cPos == 6) {
+			board[rPos][5] = board[rPos][7];
+			board[rPos][7] = null;
 		}
 	}
 

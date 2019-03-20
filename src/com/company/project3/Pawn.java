@@ -21,14 +21,20 @@ public class Pawn extends ChessPiece {
 		if(super.isValidMove(move, board)) {
 
 			if (player() == Player.WHITE) {
-				if (move.fromRow - move.toRow == 2 && move.toColumn == move.fromColumn && move.fromRow == 6) {
+				//White pawn charge
+				if (move.fromRow - move.toRow == 2 && move.toColumn == move.fromColumn && move.fromRow == 6 && board[move.fromRow-1][move.fromColumn] == null) {
 					valid = true;
+
+				//White pawn normal move
 				} else if (move.fromRow - move.toRow == 1 && move.toColumn == move.fromColumn) {
 					valid = true;
 				}
 			}else{
-				if (move.fromRow - move.toRow == -2 && move.toColumn == move.fromColumn && move.fromRow == 1) {
+				//Black pawn charge
+				if (move.fromRow - move.toRow == -2 && move.toColumn == move.fromColumn && move.fromRow == 1 && board[move.fromRow+1][move.fromColumn] == null) {
 					valid = true;
+
+				//Black pawn normal move
 				} else if (move.fromRow - move.toRow == -1 && move.toColumn == move.fromColumn) {
 					valid = true;
 				}
