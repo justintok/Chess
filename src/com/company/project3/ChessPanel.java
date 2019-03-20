@@ -129,7 +129,7 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
+        String path = "C:\\Users\\Jason\\Desktop\\cis163\\ChessGit\\";
         //Our paths Copy yours and put it here ^
 
         // C:\Users\Jason\Desktop\cis163\ChessGit\\
@@ -215,6 +215,7 @@ public class ChessPanel extends JPanel {
                             Move m = new Move(fromRow, fromCol, toRow, toCol);
                             if ((model.isValidMove(m)) == true) {
                                 model.move(m);
+                                model.setNextPlayer();
                             }
                             displayBoard();
                             setBackGroundColor(fromRow,fromCol);
