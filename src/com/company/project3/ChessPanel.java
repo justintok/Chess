@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class ChessPanel extends JPanel {
 
-    private JButton[][] board;
+    protected static JButton[][] board;
     private ChessModel model;
 
     private ImageIcon wRook;
@@ -156,12 +156,13 @@ public class ChessPanel extends JPanel {
     // method that updates the board
     private void displayBoard() {
 
+
+
         for (int r = 0; r < 8; r++) {
-            for (int c = 0; c < 8; c++)
+            for (int c = 0; c < 8; c++) {
                 if (model.pieceAt(r, c) == null)
                     board[r][c].setIcon(null);
-                else
-                if (model.pieceAt(r, c).player() == Player.WHITE) {
+                else if (model.pieceAt(r, c).player() == Player.WHITE) {
                     if (model.pieceAt(r, c).type().equals("Pawn"))
                         board[r][c].setIcon(wPawn);
 
@@ -181,6 +182,8 @@ public class ChessPanel extends JPanel {
                         board[r][c].setIcon(wKing);
 
                 }
+                setBackGroundColor(r,c);
+            }
         }
         repaint();
     }
@@ -195,7 +198,8 @@ public class ChessPanel extends JPanel {
                             fromRow = r;
                             fromCol = c;
                             if(model.pieceAt(r,c) != null && model.currentPlayer() == model.pieceAt(r,c).player()){
-                                board[r][c].setBackground(Color.GREEN);
+                                board[r][c].setBackground(Color.YELLOW);
+                                model.pieceAt(r,c).showValidMove(r,c,model.board,model.currentPlayer());
                                 firstTurnFlag = false;
                             }
                         } else {
@@ -207,7 +211,7 @@ public class ChessPanel extends JPanel {
                                 model.move(m);
                                 displayBoard();
                             }
-                            setBackGroundColor(fromRow,fromCol);
+                            //setBackGroundColor(fromRow,fromCol);
                         }
         }
     }

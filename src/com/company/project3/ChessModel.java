@@ -3,7 +3,7 @@ package com.company.project3;
 import javax.swing.*;
 
 public class ChessModel implements IChessModel {
-    private IChessPiece[][] board;
+    protected IChessPiece[][] board;
 	private Player player;
 
 	protected static boolean kingFirstMove;

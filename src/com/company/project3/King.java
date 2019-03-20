@@ -45,4 +45,6 @@ public class 	King extends ChessPiece {
 
 		return false;
 	}
+
+	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
 }

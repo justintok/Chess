@@ -1,5 +1,7 @@
 package com.company.project3;
 
+import java.awt.*;
+
 public class Bishop extends ChessPiece {
 
 	public Bishop(Player player) {
@@ -66,5 +68,66 @@ public class Bishop extends ChessPiece {
 				}
 			}
 		return false;
+	}
+
+	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){
+		int x = row;
+		int y = col;
+		int i = 1;
+
+		Player p2;
+		if(p == Player.BLACK){
+			p2 = Player.WHITE;
+		}else{
+			p2 = Player.BLACK;
+		}
+
+		//Up Left
+		if(x > 0 && y > 0) {
+			while (x-i >= 0 && y-i >= 0 && (board[x - i][y - i] == null || board[x - i][y - i].player() == p2)) {
+				ChessPanel.board[x - i][y - i].setBackground(Color.GREEN);
+				if(board[x - i][y - i] != null && board[x - i][y - i].player() == p2){
+					break;
+				}
+				i++;
+			}
+			i = 1;
+		}
+
+		//Up Right
+		if(x > 0 && y < 7) {
+			while (x-i >= 0 && y+i <= 7 && (board[x - i][y + i] == null || board[x - i][y + i].player() == p2)) {
+				ChessPanel.board[x - i][y + i].setBackground(Color.GREEN);
+				if(board[x - i][y + i] != null && board[x - i][y + i].player() == p2){
+					break;
+				}
+				i++;
+			}
+			i = 1;
+		}
+
+		//Down Left
+		if(x < 7 && y > 0) {
+			while (x+i <= 7 && y-i >= 0 && (board[x + i][y - i] == null || board[x + i][y - i].player() == p2)) {
+				ChessPanel.board[x + i][y - i].setBackground(Color.GREEN);
+				if(board[x + i][y - i] != null && board[x + i][y - i].player() == p2){
+					break;
+				}
+				i++;
+			}
+			i = 1;
+		}
+
+		//Down Right
+		if(x < 7 && y < 7) {
+			while (x+i <= 7 && y+i <= 7 && (board[x + i][y + i] == null || board[x + i][y + i].player() == p2)) {
+				ChessPanel.board[x + i][y + i].setBackground(Color.GREEN);
+				if(board[x + i][y +i] != null && board[x + i][y + i].player() == p2){
+					break;
+				}
+				i++;
+			}
+			i = 1;
+		}
 	}
 }

@@ -34,4 +34,6 @@ public class Pawn extends ChessPiece {
 
 		return valid;
 	}
+
+	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
 }

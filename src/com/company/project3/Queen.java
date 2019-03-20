@@ -17,4 +17,6 @@ public class Queen extends ChessPiece {
 		Rook move2 = new Rook(this.player());
 		return move2.isValidMove(move, board) || move1.isValidMove(move, board);
 	}
+
+	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
 }
