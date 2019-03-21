@@ -25,19 +25,30 @@ public class Pawn extends ChessPiece {
 				if (move.fromRow - move.toRow == 2 && move.toColumn == move.fromColumn && move.fromRow == 6 && board[move.fromRow-1][move.fromColumn] == null) {
 					valid = true;
 
-				//White pawn normal move
-				} else if (move.fromRow - move.toRow == 1 && move.toColumn == move.fromColumn) {
+					//White pawn normal move
+				} else if (move.fromRow - move.toRow == 1 && move.toColumn == move.fromColumn && board[move.fromRow-1][move.fromColumn] == null) {
 					valid = true;
+				}
+				else if (move.fromRow - move.toRow == 1 && (move.toColumn-move.fromColumn ==1 || move.toColumn-move.fromColumn == -1)){ //If it is going sideways check if there is a enemy piece there.
+					if (board[move.toRow][move.toColumn] != null && board[move.toRow][move.toColumn].player() != player() ) {
+						valid = true;
+					}
 				}
 			}else{
 				//Black pawn charge
 				if (move.fromRow - move.toRow == -2 && move.toColumn == move.fromColumn && move.fromRow == 1 && board[move.fromRow+1][move.fromColumn] == null) {
 					valid = true;
 
-				//Black pawn normal move
-				} else if (move.fromRow - move.toRow == -1 && move.toColumn == move.fromColumn) {
+					//Black pawn normal move
+				} else if (move.fromRow - move.toRow == -1 && move.toColumn == move.fromColumn && board[move.fromRow+1][move.fromColumn] == null) {
 					valid = true;
 				}
+				else if (move.fromRow - move.toRow == -1 && (move.toColumn-move.fromColumn ==1 || move.toColumn-move.fromColumn == -1)){ //If it is going sideways check if there is a enemy piece there.
+					if (board[move.toRow][move.toColumn] != null && board[move.toRow][move.toColumn].player() != player() ) {
+						valid = true;
+					}
+				}
+
 			}
 		}
 
