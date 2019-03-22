@@ -22,7 +22,7 @@ public class Pawn extends ChessPiece {
 
 			if (player() == Player.WHITE) {
 				//White pawn charge
-				if (move.fromRow - move.toRow == 2 && move.toColumn == move.fromColumn && move.fromRow == 6 && board[move.fromRow-1][move.fromColumn] == null) {
+				if (move.fromRow - move.toRow == 2 && move.toColumn == move.fromColumn && move.fromRow == 6 && board[move.fromRow-1][move.fromColumn] == null && board[move.fromRow-2][move.fromColumn] == null) {
 					valid = true;
 
 					//White pawn normal move
@@ -36,7 +36,7 @@ public class Pawn extends ChessPiece {
 				}
 			}else{
 				//Black pawn charge
-				if (move.fromRow - move.toRow == -2 && move.toColumn == move.fromColumn && move.fromRow == 1 && board[move.fromRow+1][move.fromColumn] == null) {
+				if (move.fromRow - move.toRow == -2 && move.toColumn == move.fromColumn && move.fromRow == 1 && board[move.fromRow+1][move.fromColumn] == null && board[move.fromRow+2][move.fromColumn] == null) {
 					valid = true;
 
 					//Black pawn normal move
