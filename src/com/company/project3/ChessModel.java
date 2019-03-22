@@ -112,21 +112,82 @@ public class ChessModel implements IChessModel {
 
 		if (board[move.fromRow][move.fromColumn] != null) {
 			if (board[move.fromRow][move.fromColumn].isValidMove(move, board) == true) {
-//				if(board[move.fromRow][move.fromColumn].type().equals("King")) {
-//					IChessPiece temp = board[move.toRow][move.toColumn];
-//					board[move.toRow][move.toColumn] = board[move.fromRow][move.fromColumn];
-//					board[move.fromRow][move.fromColumn] = null;
-//					if (inCheck(currentPlayer())) {
-//						return false;
-//					}
-//					board[move.fromRow][move.fromColumn] = board[move.toRow][move.toColumn];
-//					board[move.toRow][move.toColumn] = temp;
-//				}
+				if(board[move.fromRow][move.fromColumn].type().equals("King")) {
+					for (int i = -1; i<= 1; i++){
+						for (int n = -1; n<= 1; n++){ //Checks 8 surrounding places around the king to see where he can move
+							if (inDanger(new Move(move.fromRow+i,move.fromColumn+n,move.toRow,move.toColumn),currentPlayer())){
+								return false;
+							}
+						}
+					}
+				}
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	public boolean inDanger(Move move, Player p){
+		Player p2;
+		if(p == player.WHITE){
+			p2 = player.BLACK;
+		}else{
+			p2 = player.WHITE;
+		}
+
+		Rook rookTest = new Rook(p2);
+		Knight knightTest = new Knight(p2);
+		Queen queenTest = new Queen(p2);
+		Pawn pawnTest = new Pawn(p2);
+		Bishop bishopTest = new Bishop(p2);
+		King kingTest = new King(p2);
+
+		for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
+				if ((pieceAt(r, c) != null))
+					if (pieceAt(r, c).player() == p2){
+						if (pieceAt(r, c).type().equals("Rook")) {
+							Move m = new Move(r,c,move.toRow,move.fromColumn);
+							if (rookTest.isValidMove(m,board)){
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Knight")) {
+							Move m = new Move(r,c,move.toRow,move.fromColumn);
+							if (knightTest.isValidMove(m,board)){
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Queen")) {
+							Move m = new Move(r,c,move.toRow,move.fromColumn);
+							if (queenTest.isValidMove(m,board)){
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Pawn")) {
+							Move m = new Move(r,c,move.toRow,move.fromColumn);
+							if (pawnTest.isValidMove(m,board)){
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Bishop")) {
+							Move m = new Move(r,c,move.toRow,move.fromColumn);
+							if (bishopTest.isValidMove(m,board)){
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("King")) {
+							Move m = new Move(r,c,move.toRow,move.fromColumn);
+							if (kingTest.isValidMove(m,board)){
+								return true;
+							}
+						}
+					}
+			}
+		}
+		return false;
+
 	}
 
 	public boolean inCheck(Player p){
