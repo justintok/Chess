@@ -21,12 +21,10 @@ public abstract class ChessPiece implements IChessPiece {
 
 		
 		if (!((move.fromRow == move.toRow) && (move.fromColumn == move.toColumn))) { //If its new location is not the original location
-			//if(board[move.fromRow][move.fromColumn] == this) //If 'This' Chess piece is at the original location
-			//{
-				if (board[move.toRow][move.toColumn] == null || board[move.fromRow][move.fromColumn].player() != board[move.toRow][move.toColumn].player()) //Can only move into a space with no piece or a enemy piece
+			
+			if (board[move.toRow][move.toColumn] == null || board[move.fromRow][move.fromColumn].player() != board[move.toRow][move.toColumn].player()) //Can only move into a space with no piece or a enemy piece
 				{
-					valid = true;
-				}
+					valid = true; }
 			//}
 		}
 
