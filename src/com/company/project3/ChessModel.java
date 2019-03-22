@@ -265,9 +265,11 @@ public class ChessModel implements IChessModel {
 	}
 
 	public void setNextPlayer() {
+		Player winner = player;
 		player = player.next();
 		if(isComplete()){
-			System.out.println("Checkmate");
+			JOptionPane.showMessageDialog(null, "Checkmate! " + winner.toString() + " wins!");
+			System.exit(0);
 		}
 	}
 

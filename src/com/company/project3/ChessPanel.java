@@ -235,6 +235,7 @@ public class ChessPanel extends JPanel {
                             Move m = new Move(fromRow, fromCol, toRow, toCol);
                             if ((model.isValidMove(m)) == true) {
                                 model.move(m);
+                                displayBoard();
                                 model.setNextPlayer();
                             }
                             displayBoard();
