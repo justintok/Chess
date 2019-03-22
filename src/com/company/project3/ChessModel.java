@@ -61,17 +61,41 @@ public class ChessModel implements IChessModel {
 	}
 
 	public boolean isComplete() {
-		boolean valid = false;
+		boolean valid = true;
 		Move testMove = new Move();
+		int r = 0;
+		int c = 0;
 
-		for (int r = 0; r < 8; r++) {
-			for (int c = 0; c < 8; c++) {
-				if (pieceAt(r, c).type().equals("King")) {
+		findKing_loop:
+		for (r = 0; r < 8; r++) {
+			for (c = 0; c < 8; c++) {
+				if (pieceAt(r,c) != null && pieceAt(r, c).type().equals("King") && pieceAt(r,c).player() == currentPlayer()) {
 					testMove.fromRow = r;
 					testMove.fromColumn = c;
-
+					break findKing_loop;
 				}
 			}
+		}
+
+		if(inCheck(currentPlayer())) {
+			for (int x = 0; x < numRows(); x++) {
+				for (int y = 0; y < numColumns(); y++) {
+					testMove.toRow = x;
+					testMove.toColumn = y;
+					if (isValidMove(testMove)) {
+						IChessPiece temp = board[testMove.toRow][testMove.toColumn];
+						board[testMove.toRow][testMove.toColumn] = board[r][c];
+						board[r][c] = null;
+						if (!inCheck(currentPlayer())) {
+							valid = false;
+						}
+						board[r][c] = board[testMove.toRow][testMove.toColumn];
+						board[testMove.toRow][testMove.toColumn] = temp;
+					}
+				}
+			}
+		}else{
+			valid = false;
 		}
 
 		return valid;
@@ -80,13 +104,27 @@ public class ChessModel implements IChessModel {
 
 	public boolean isValidMove(Move move) {
 
-		if (pieceAt(move.fromRow,move.fromColumn).type()=="King")
+		//Cant move a different piece if the king is in check
+		if (!pieceAt(move.fromRow,move.fromColumn).type().equals("King")) {
 			if (inCheck(currentPlayer()))
 				return false;
+		}
 
-		if (board[move.fromRow][move.fromColumn] != null)
-			if (board[move.fromRow][move.fromColumn].isValidMove(move, board) == true)
-                return true;
+		if (board[move.fromRow][move.fromColumn] != null) {
+			if (board[move.fromRow][move.fromColumn].isValidMove(move, board) == true) {
+//				if(board[move.fromRow][move.fromColumn].type().equals("King")) {
+//					IChessPiece temp = board[move.toRow][move.toColumn];
+//					board[move.toRow][move.toColumn] = board[move.fromRow][move.fromColumn];
+//					board[move.fromRow][move.fromColumn] = null;
+//					if (inCheck(currentPlayer())) {
+//						return false;
+//					}
+//					board[move.fromRow][move.fromColumn] = board[move.toRow][move.toColumn];
+//					board[move.toRow][move.toColumn] = temp;
+//				}
+				return true;
+			}
+		}
 
 		return false;
 	}
@@ -228,6 +266,9 @@ public class ChessModel implements IChessModel {
 
 	public void setNextPlayer() {
 		player = player.next();
+		if(isComplete()){
+			System.out.println("Checkmate");
+		}
 	}
 
 	public void setPiece(int row, int column, IChessPiece piece) {

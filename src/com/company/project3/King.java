@@ -50,7 +50,7 @@ public class 	King extends ChessPiece {
 			//else, check for a normal move
 			if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1))){
 				ChessModel.castling = "";
-			return true;
+				return true;
 			}
 		}
 		//else, check for a normal move
@@ -58,6 +58,7 @@ public class 	King extends ChessPiece {
 			ChessModel.castling = "";
 			return true;
 		}
+
 
 		return false;
 	}
