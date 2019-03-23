@@ -6,9 +6,12 @@ public class ChessModel implements IChessModel {
     protected IChessPiece[][] board;
 	private Player player;
 
-	protected static boolean kingFirstMove;
-	protected static boolean rookLeftFirstMove;
-	protected static boolean rookRightFirstMove;
+	protected static boolean whiteKingFirstMove;
+	protected static boolean whiteRookLeftFirstMove;
+	protected static boolean whiteRookRightFirstMove;
+    protected static boolean blackKingFirstMove;
+    protected static boolean blackRookLeftFirstMove;
+    protected static boolean blackRookRightFirstMove;
 	protected static String castling;
 
 	// declare other instance variables as needed
@@ -53,9 +56,12 @@ public class ChessModel implements IChessModel {
 		board[6][6] = new Pawn(Player.WHITE);
 		board[6][7] = new Pawn(Player.WHITE);
 
-		kingFirstMove = true;
-		rookLeftFirstMove = true;
-		rookRightFirstMove = true;
+		whiteKingFirstMove = true;
+		whiteRookLeftFirstMove = true;
+		whiteRookRightFirstMove = true;
+        blackKingFirstMove = true;
+        blackRookLeftFirstMove = true;
+        blackRookRightFirstMove = true;
 		castling = "";
 
 	}
@@ -111,7 +117,7 @@ public class ChessModel implements IChessModel {
 		}
 
 		if (board[move.fromRow][move.fromColumn] != null) {
-			if (board[move.fromRow][move.fromColumn].isValidMove(move, board) == true) {
+			if (board[move.fromRow][move.fromColumn].isValidMove(move, board)) {
 				if(board[move.fromRow][move.fromColumn].type().equals("King")) {
 					//for (int i = -1; i<= 1; i++){
 					//	for (int n = -1; n<= 1; n++){ //Checks 8 surrounding places around the king to see where he can move
@@ -300,15 +306,27 @@ public class ChessModel implements IChessModel {
 	}
 
 	public void checkForFirstMove(Move move){
-		if(board[move.fromRow][move.fromColumn].type() == "King"){
-			kingFirstMove = false;
+		if(board[move.fromRow][move.fromColumn].type() == "King") {
+            if (board[move.fromRow][move.fromColumn].player() == player.WHITE){
+                whiteKingFirstMove = false;
+            }else{
+                blackKingFirstMove = false;
+            }
 		}
 		if(board[move.fromRow][move.fromColumn].type() == "Rook"){
-			if(move.fromColumn == 0){
-				rookLeftFirstMove = false;
-			}else if(move.fromColumn == 7){
-				rookRightFirstMove = false;
-			}
+			if(board[move.fromRow][move.fromColumn].player() == player.WHITE) {
+                if (move.fromColumn == 0) {
+                    whiteRookLeftFirstMove = false;
+                } else if (move.fromColumn == 7) {
+                    whiteRookRightFirstMove = false;
+                }
+            }else{
+                if (move.fromColumn == 0) {
+                    blackRookLeftFirstMove = false;
+                } else if (move.fromColumn == 7) {
+                    blackRookRightFirstMove = false;
+                }
+            }
 		}
 	}
 

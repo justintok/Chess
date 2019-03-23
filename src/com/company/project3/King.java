@@ -25,11 +25,11 @@ public class 	King extends ChessPiece {
 		else
 			r = 7;
 
-		//Castling Function
-		if (ChessModel.kingFirstMove) {
+		//Castling for White king
+		if (board[move.fromRow][move.fromColumn].player() == Player.WHITE && ChessModel.whiteKingFirstMove) {
 			boolean valid = true;
 			if (move.toRow == r) {
-				if (move.toColumn == 2 && ChessModel.rookLeftFirstMove) {
+				if (move.toColumn == 2 && ChessModel.whiteRookLeftFirstMove) {
 					for (int c = 1; c < 4; c++) {
 						if (board[r][c] != null)
 							valid = false;
@@ -37,7 +37,7 @@ public class 	King extends ChessPiece {
 					if (valid)
 						ChessModel.castling = "L";
 					return valid;
-				} else if (move.toColumn == 6 && ChessModel.rookRightFirstMove) {
+				} else if (move.toColumn == 6 && ChessModel.whiteRookRightFirstMove) {
 					for (int c = 5; c < 7; c++) {
 						if (board[r][c] != null)
 							valid = false;
@@ -47,12 +47,43 @@ public class 	King extends ChessPiece {
 					return valid;
 				}
 			}
-		}
+
 			//else, check for a normal move
-			if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1))){
+			else if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1))) {
 				ChessModel.castling = "";
 				return true;
 			}
+		}
+
+		//Castling for Black king
+		else if(board[move.fromRow][move.fromColumn].player() == Player.BLACK && ChessModel.blackKingFirstMove){
+			boolean valid = true;
+			if (move.toRow == r) {
+				if (move.toColumn == 2 && ChessModel.blackRookLeftFirstMove) {
+					for (int c = 1; c < 4; c++) {
+						if (board[r][c] != null)
+							valid = false;
+					}
+					if (valid)
+						ChessModel.castling = "L";
+					return valid;
+				} else if (move.toColumn == 6 && ChessModel.blackRookRightFirstMove) {
+					for (int c = 5; c < 7; c++) {
+						if (board[r][c] != null)
+							valid = false;
+					}
+					if (valid)
+						ChessModel.castling = "R";
+					return valid;
+				}
+			}
+
+			//else, check for a normal move
+			else if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1))) {
+				ChessModel.castling = "";
+				return true;
+			}
+		}
 
 		//else, check for a normal move
 		else if (move1.isValidMove(move, board) && ((Math.abs(move.toRow - move.fromRow) == 1) || (Math.abs(move.toColumn - move.fromColumn) == 1))) {
