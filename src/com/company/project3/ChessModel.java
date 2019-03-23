@@ -306,6 +306,8 @@ public class ChessModel implements IChessModel {
 	}
 
 	public void checkForFirstMove(Move move){
+
+		//Checks if it's the king's first move
 		if(board[move.fromRow][move.fromColumn].type() == "King") {
             if (board[move.fromRow][move.fromColumn].player() == player.WHITE){
                 whiteKingFirstMove = false;
@@ -313,6 +315,8 @@ public class ChessModel implements IChessModel {
                 blackKingFirstMove = false;
             }
 		}
+
+		//Checks if it's any of the Rook's first move
 		if(board[move.fromRow][move.fromColumn].type() == "Rook"){
 			if(board[move.fromRow][move.fromColumn].player() == player.WHITE) {
                 if (move.fromColumn == 0) {
