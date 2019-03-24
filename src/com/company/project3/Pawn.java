@@ -34,7 +34,7 @@ public class Pawn extends ChessPiece {
 						valid = true;
 					}
 				}
-			}else{
+			}else{ //Should be fixed.
 				//Black pawn charge
 				if (move.fromRow - move.toRow == -2 && move.toColumn == move.fromColumn && move.fromRow == 1 && board[move.fromRow+1][move.fromColumn] == null && board[move.fromRow+2][move.fromColumn] == null) {
 					valid = true;
@@ -55,5 +55,5 @@ public class Pawn extends ChessPiece {
 		return valid;
 	}
 
-//	public void showValidMove(int row, int col,IChessPiece[][] board,Player p){}
+
 }
