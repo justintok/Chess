@@ -155,9 +155,13 @@ public class ChessModel implements IChessModel {
 					if (pieceAt(r, c).player() == p2){
 						if (pieceAt(r, c).type().equals("Rook")) {
 							Move m = new Move(r,c,move.toRow,move.toColumn);
+							IChessPiece temp = board[move.fromRow][move.fromColumn];
+							board[move.fromRow][move.fromColumn] = null;
 							if (rookTest.isValidMove(m,board)){
+                                board[move.fromRow][move.fromColumn] = temp;
 								return true;
 							}
+                            board[move.fromRow][move.fromColumn] = temp;
 						}
 						if (pieceAt(r, c).type().equals("Knight")) {
 							Move m = new Move(r,c,move.toRow,move.toColumn);
@@ -166,10 +170,14 @@ public class ChessModel implements IChessModel {
 							}
 						}
 						if (pieceAt(r, c).type().equals("Queen")) {
-							Move m = new Move(r,c,move.toRow,move.toColumn);
-							if (queenTest.isValidMove(m,board)){
-								return true;
-							}
+                            Move m = new Move(r,c,move.toRow,move.toColumn);
+                            IChessPiece temp = board[move.fromRow][move.fromColumn];
+                            board[move.fromRow][move.fromColumn] = null;
+                            if (queenTest.isValidMove(m,board)){
+                                board[move.fromRow][move.fromColumn] = temp;
+                                return true;
+                            }
+                            board[move.fromRow][move.fromColumn] = temp;
 						}
 						if (pieceAt(r, c).type().equals("Pawn")) {
 							Move m = new Move(r,c,move.toRow,move.toColumn);
@@ -182,10 +190,14 @@ public class ChessModel implements IChessModel {
                             }
 						}
 						if (pieceAt(r, c).type().equals("Bishop")) {
-							Move m = new Move(r,c,move.toRow,move.toColumn);
+                            Move m = new Move(r,c,move.toRow,move.toColumn);
+                            IChessPiece temp = board[move.fromRow][move.fromColumn];
+                            board[move.fromRow][move.fromColumn] = null;
                             if (bishopTest.isValidMove(m,board)){
+                                board[move.fromRow][move.fromColumn] = temp;
                                 return true;
                             }
+                            board[move.fromRow][move.fromColumn] = temp;
 						}
 						if (pieceAt(r, c).type().equals("King")) {
 							Move m = new Move(r,c,move.toRow,move.toColumn);
