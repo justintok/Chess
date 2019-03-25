@@ -180,14 +180,17 @@ public class ChessModel implements IChessModel {
                             board[move.fromRow][move.fromColumn] = temp;
 						}
 						if (pieceAt(r, c).type().equals("Pawn")) {
-							Move m = new Move(r,c,move.toRow,move.toColumn);
-                            if (p2 == player.BLACK){
-                                if(move.toRow - r == 1 && Math.abs(move.toColumn - c) == 1){
-                                    return true;
-                                }else if(r - move.toRow == 1 && Math.abs(move.toColumn - c) == 1){
-                                    return true;
-                                }
-                            }
+							Move m = new Move(r, c, move.toRow, move.toColumn);
+							if (p2 == player.BLACK) {
+								if (move.toRow - r == 1 && Math.abs(move.toColumn - c) == 1) {
+									return true;
+								}
+								if (p2 == player.WHITE) {
+									if (move.toRow - r == -1 && Math.abs(move.toColumn - c) == 1) {
+										return true;
+									}
+								}
+							}
 						}
 						if (pieceAt(r, c).type().equals("Bishop")) {
                             Move m = new Move(r,c,move.toRow,move.toColumn);
@@ -377,6 +380,18 @@ public class ChessModel implements IChessModel {
 	}
 
 	public void AI() {
+
+		Player p = currentPlayer();
+		if (inCheck(p)){
+			// move king
+		}
+
+		for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
+				if (inDanger(r,c))
+
+			}
+		}
 		/*
 		 * Write a simple AI set of rules in the following order.
 		 * a. Check to see if you are in check.
