@@ -9,6 +9,7 @@ public class ChessPanel extends JPanel {
 
     protected static JButton[][] board;
     private ChessModel model;
+    private JButton ai;
 
     private ImageIcon wRook;
     private ImageIcon wBishop;
@@ -37,10 +38,21 @@ public class ChessPanel extends JPanel {
         model = new ChessModel();
         board = new JButton[model.numRows()][model.numColumns()];
         listener = new listener();
+
         createIcons();
 
         JPanel boardpanel = new JPanel();
         JPanel buttonpanel = new JPanel();
+        JButton button = new JButton("AI Move");
+
+        buttonpanel.add(button);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.AI();
+                System.out.print("test");
+            }
+        });
         boardpanel.setLayout(new GridLayout(model.numRows(), model.numColumns(), 1, 1));
 
         for (int r = 0; r < model.numRows(); r++) {
@@ -72,6 +84,11 @@ public class ChessPanel extends JPanel {
             board[r][c].setOpaque(true);
             board[r][c].setBorderPainted(false);
         }
+    }
+    private void buttonAI(ActionEvent e){
+        model.AI();
+        System.out.print("test");
+
     }
 
     private void placeWhitePieces(int r, int c) {
@@ -129,7 +146,7 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
+        String path = "C:\\Users\\Jason\\Desktop\\cis163\\ChessGit\\";
         //Our paths Copy yours and put it here ^
 
         // C:\Users\Jason\Desktop\cis163\ChessGit\\

@@ -1,6 +1,7 @@
 package com.company.project3;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class ChessModel implements IChessModel {
     protected IChessPiece[][] board;
@@ -130,7 +131,6 @@ public class ChessModel implements IChessModel {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -398,15 +398,28 @@ public class ChessModel implements IChessModel {
 	}
 
 	public void AI() {
+		Random rNum = new Random();
+		int randomR = rNum.nextInt(8);
+		int randomC = rNum.nextInt(8);
 
+
+
+		//a
 		Player p = currentPlayer();
 		if (inCheck(p)){
-			// move king
+
+
 		}
 
+		//c
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
-				if (inDanger(new Move(),currentPlayer())){}
+				if (inDanger(new Move(r,c,0,0),currentPlayer())){
+					if (isValidMove(new Move (r,c,randomR,randomC))){
+						move(new Move (r,c,randomR,randomC));
+
+					}
+				}
 
 			}
 		}
