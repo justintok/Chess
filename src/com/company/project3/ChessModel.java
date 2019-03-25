@@ -135,6 +135,8 @@ public class ChessModel implements IChessModel {
 	}
 
 	public boolean inDanger(Move move, Player p){
+
+		//finds current player and opposing player
 		Player p2;
 		if(p == player.WHITE){
 			p2 = player.BLACK;
@@ -142,6 +144,7 @@ public class ChessModel implements IChessModel {
 			p2 = player.WHITE;
 		}
 
+		//Initializes test moves for all piece types
 		Rook rookTest = new Rook(p2);
 		Knight knightTest = new Knight(p2);
 		Queen queenTest = new Queen(p2);
@@ -149,6 +152,11 @@ public class ChessModel implements IChessModel {
 		Bishop bishopTest = new Bishop(p2);
 		King kingTest = new King(p2);
 
+		//Sets the 'to' location to null in order to correctly check inDanger locations
+		IChessPiece moveToTemp = board[move.toRow][move.toColumn];
+		board[move.toRow][move.toColumn] = null;
+
+		//Checks all opposing pieces to see if they can put the king in danger
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
 				if ((pieceAt(r, c) != null))
@@ -159,6 +167,7 @@ public class ChessModel implements IChessModel {
 							board[move.fromRow][move.fromColumn] = null;
 							if (rookTest.isValidMove(m,board)){
                                 board[move.fromRow][move.fromColumn] = temp;
+								board[move.toRow][move.toColumn] = moveToTemp;
 								return true;
 							}
                             board[move.fromRow][move.fromColumn] = temp;
@@ -166,6 +175,7 @@ public class ChessModel implements IChessModel {
 						if (pieceAt(r, c).type().equals("Knight")) {
 							Move m = new Move(r,c,move.toRow,move.toColumn);
 							if (knightTest.isValidMove(m,board)){
+								board[move.toRow][move.toColumn] = moveToTemp;
 								return true;
 							}
 						}
@@ -175,6 +185,7 @@ public class ChessModel implements IChessModel {
                             board[move.fromRow][move.fromColumn] = null;
                             if (queenTest.isValidMove(m,board)){
                                 board[move.fromRow][move.fromColumn] = temp;
+								board[move.toRow][move.toColumn] = moveToTemp;
                                 return true;
                             }
                             board[move.fromRow][move.fromColumn] = temp;
@@ -183,10 +194,12 @@ public class ChessModel implements IChessModel {
 							Move m = new Move(r, c, move.toRow, move.toColumn);
 							if (p2 == player.BLACK) {
 								if (move.toRow - r == 1 && Math.abs(move.toColumn - c) == 1) {
+									board[move.toRow][move.toColumn] = moveToTemp;
 									return true;
 								}
 								if (p2 == player.WHITE) {
 									if (move.toRow - r == -1 && Math.abs(move.toColumn - c) == 1) {
+										board[move.toRow][move.toColumn] = moveToTemp;
 										return true;
 									}
 								}
@@ -198,6 +211,7 @@ public class ChessModel implements IChessModel {
                             board[move.fromRow][move.fromColumn] = null;
                             if (bishopTest.isValidMove(m,board)){
                                 board[move.fromRow][move.fromColumn] = temp;
+								board[move.toRow][move.toColumn] = moveToTemp;
                                 return true;
                             }
                             board[move.fromRow][move.fromColumn] = temp;
@@ -205,12 +219,16 @@ public class ChessModel implements IChessModel {
 						if (pieceAt(r, c).type().equals("King")) {
 							Move m = new Move(r,c,move.toRow,move.toColumn);
 							if (kingTest.isValidMove(m,board)){
+								board[move.toRow][move.toColumn] = moveToTemp;
 								return true;
 							}
 						}
 					}
 			}
 		}
+
+		board[move.toRow][move.toColumn] = moveToTemp;
+
 		return false;
 
 	}
@@ -388,7 +406,7 @@ public class ChessModel implements IChessModel {
 
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
-				if (inDanger(r,c))
+				if (inDanger(new Move(),currentPlayer())){}
 
 			}
 		}
