@@ -51,6 +51,8 @@ public class ChessPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 model.AI();
                 System.out.print("test");
+                displayBoard();
+                model.setNextPlayer();
             }
         });
         boardpanel.setLayout(new GridLayout(model.numRows(), model.numColumns(), 1, 1));
@@ -146,7 +148,7 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "C:\\Users\\Jason\\Desktop\\cis163\\ChessGit\\";
+        String path = "C:\\Users\\Lazyr\\IdeaProjects\\Chess\\";
         //Our paths Copy yours and put it here ^
 
         // C:\Users\Jason\Desktop\cis163\ChessGit\\
