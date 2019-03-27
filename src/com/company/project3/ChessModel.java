@@ -93,9 +93,8 @@ public class ChessModel implements IChessModel {
 						IChessPiece temp = board[testMove.toRow][testMove.toColumn];
 						board[testMove.toRow][testMove.toColumn] = board[r][c];
 						board[r][c] = null;
-						if (!inCheck(currentPlayer())) {
+						if (!inCheck(currentPlayer()))
 							valid = false;
-						}
 						board[r][c] = board[testMove.toRow][testMove.toColumn];
 						board[testMove.toRow][testMove.toColumn] = temp;
 					}
@@ -117,16 +116,15 @@ public class ChessModel implements IChessModel {
 				return false;
 		}
 
+		//Cannot select a blank location
 		if (board[move.fromRow][move.fromColumn] != null) {
+			//Calls the ChessPiece level isValidMove method
 			if (board[move.fromRow][move.fromColumn].isValidMove(move, board)) {
+				//If you are moving the king, makes sure you cannot move into an inCheck position
 				if(board[move.fromRow][move.fromColumn].type().equals("King")) {
-					//for (int i = -1; i<= 1; i++){
-					//	for (int n = -1; n<= 1; n++){ //Checks 8 surrounding places around the king to see where he can move
-							if (inDanger(move,currentPlayer())){ //old move param: new Move(move.fromRow+i,move.fromColumn+n,move.toRow,move.toColumn)
-								return false;
-							}
-					//	}
-					//}
+					if (inDanger(move,currentPlayer())){
+						return false;
+					}
 				}
 				return true;
 			}
@@ -366,7 +364,6 @@ public class ChessModel implements IChessModel {
             }
 		}
 	}
-
 
 	public Player currentPlayer() {
 		return player;
