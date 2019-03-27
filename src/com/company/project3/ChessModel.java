@@ -4,15 +4,15 @@ import javax.swing.*;
 import java.util.Random;
 
 public class ChessModel implements IChessModel {
-    protected IChessPiece[][] board;
+	protected IChessPiece[][] board;
 	private Player player;
 
 	protected static boolean whiteKingFirstMove;
 	protected static boolean whiteRookLeftFirstMove;
 	protected static boolean whiteRookRightFirstMove;
-    protected static boolean blackKingFirstMove;
-    protected static boolean blackRookLeftFirstMove;
-    protected static boolean blackRookRightFirstMove;
+	protected static boolean blackKingFirstMove;
+	protected static boolean blackRookLeftFirstMove;
+	protected static boolean blackRookRightFirstMove;
 	protected static String castling;
 
 	// declare other instance variables as needed
@@ -60,9 +60,9 @@ public class ChessModel implements IChessModel {
 		whiteKingFirstMove = true;
 		whiteRookLeftFirstMove = true;
 		whiteRookRightFirstMove = true;
-        blackKingFirstMove = true;
-        blackRookLeftFirstMove = true;
-        blackRookRightFirstMove = true;
+		blackKingFirstMove = true;
+		blackRookLeftFirstMove = true;
+		blackRookRightFirstMove = true;
 		castling = "";
 
 	}
@@ -76,7 +76,7 @@ public class ChessModel implements IChessModel {
 		findKing_loop:
 		for (r = 0; r < 8; r++) {
 			for (c = 0; c < 8; c++) {
-				if (pieceAt(r,c) != null && pieceAt(r, c).type().equals("King") && pieceAt(r,c).player() == currentPlayer()) {
+				if (pieceAt(r, c) != null && pieceAt(r, c).type().equals("King") && pieceAt(r, c).player() == currentPlayer()) {
 					testMove.fromRow = r;
 					testMove.fromColumn = c;
 					break findKing_loop;
@@ -84,7 +84,7 @@ public class ChessModel implements IChessModel {
 			}
 		}
 
-		if(inCheck(currentPlayer())) {
+		if (inCheck(currentPlayer())) {
 			for (int x = 0; x < numRows(); x++) {
 				for (int y = 0; y < numColumns(); y++) {
 					testMove.toRow = x;
@@ -93,14 +93,15 @@ public class ChessModel implements IChessModel {
 						IChessPiece temp = board[testMove.toRow][testMove.toColumn];
 						board[testMove.toRow][testMove.toColumn] = board[r][c];
 						board[r][c] = null;
-						if (!inCheck(currentPlayer()))
+						if (!inCheck(currentPlayer())) {
 							valid = false;
+						}
 						board[r][c] = board[testMove.toRow][testMove.toColumn];
 						board[testMove.toRow][testMove.toColumn] = temp;
 					}
 				}
 			}
-		}else{
+		} else {
 			valid = false;
 		}
 
@@ -111,20 +112,21 @@ public class ChessModel implements IChessModel {
 	public boolean isValidMove(Move move) {
 
 		//Cant move a different piece if the king is in check
-		if ((pieceAt(move.fromRow, move.fromColumn) != null&& !pieceAt(move.fromRow,move.fromColumn).type().equals("King"))) {
+		if ((pieceAt(move.fromRow, move.fromColumn) != null && !pieceAt(move.fromRow, move.fromColumn).type().equals("King"))) {
 			if (inCheck(currentPlayer()))
 				return false;
 		}
 
-		//Cannot select a blank location
 		if (board[move.fromRow][move.fromColumn] != null) {
-			//Calls the ChessPiece level isValidMove method
 			if (board[move.fromRow][move.fromColumn].isValidMove(move, board)) {
-				//If you are moving the king, makes sure you cannot move into an inCheck position
-				if(board[move.fromRow][move.fromColumn].type().equals("King")) {
-					if (inDanger(move,currentPlayer())){
+				if (board[move.fromRow][move.fromColumn].type().equals("King")) {
+					//for (int i = -1; i<= 1; i++){
+					//	for (int n = -1; n<= 1; n++){ //Checks 8 surrounding places around the king to see where he can move
+					if (inDanger(move, currentPlayer())) { //old move param: new Move(move.fromRow+i,move.fromColumn+n,move.toRow,move.toColumn)
 						return false;
 					}
+					//	}
+					//}
 				}
 				return true;
 			}
@@ -132,13 +134,13 @@ public class ChessModel implements IChessModel {
 		return false;
 	}
 
-	public boolean inDanger(Move move, Player p){
+	public boolean inDanger(Move move, Player p) {
 
 		//finds current player and opposing player
 		Player p2;
-		if(p == player.WHITE){
+		if (p == player.WHITE) {
 			p2 = player.BLACK;
-		}else{
+		} else {
 			p2 = player.WHITE;
 		}
 
@@ -158,35 +160,35 @@ public class ChessModel implements IChessModel {
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
 				if ((pieceAt(r, c) != null))
-					if (pieceAt(r, c).player() == p2){
+					if (pieceAt(r, c).player() == p2) {
 						if (pieceAt(r, c).type().equals("Rook")) {
-							Move m = new Move(r,c,move.toRow,move.toColumn);
+							Move m = new Move(r, c, move.toRow, move.toColumn);
 							IChessPiece temp = board[move.fromRow][move.fromColumn];
 							board[move.fromRow][move.fromColumn] = null;
-							if (rookTest.isValidMove(m,board)){
-                                board[move.fromRow][move.fromColumn] = temp;
+							if (rookTest.isValidMove(m, board)) {
+								board[move.fromRow][move.fromColumn] = temp;
 								board[move.toRow][move.toColumn] = moveToTemp;
 								return true;
 							}
-                            board[move.fromRow][move.fromColumn] = temp;
+							board[move.fromRow][move.fromColumn] = temp;
 						}
 						if (pieceAt(r, c).type().equals("Knight")) {
-							Move m = new Move(r,c,move.toRow,move.toColumn);
-							if (knightTest.isValidMove(m,board)){
+							Move m = new Move(r, c, move.toRow, move.toColumn);
+							if (knightTest.isValidMove(m, board)) {
 								board[move.toRow][move.toColumn] = moveToTemp;
 								return true;
 							}
 						}
 						if (pieceAt(r, c).type().equals("Queen")) {
-                            Move m = new Move(r,c,move.toRow,move.toColumn);
-                            IChessPiece temp = board[move.fromRow][move.fromColumn];
-                            board[move.fromRow][move.fromColumn] = null;
-                            if (queenTest.isValidMove(m,board)){
-                                board[move.fromRow][move.fromColumn] = temp;
+							Move m = new Move(r, c, move.toRow, move.toColumn);
+							IChessPiece temp = board[move.fromRow][move.fromColumn];
+							board[move.fromRow][move.fromColumn] = null;
+							if (queenTest.isValidMove(m, board)) {
+								board[move.fromRow][move.fromColumn] = temp;
 								board[move.toRow][move.toColumn] = moveToTemp;
-                                return true;
-                            }
-                            board[move.fromRow][move.fromColumn] = temp;
+								return true;
+							}
+							board[move.fromRow][move.fromColumn] = temp;
 						}
 						if (pieceAt(r, c).type().equals("Pawn")) {
 							Move m = new Move(r, c, move.toRow, move.toColumn);
@@ -204,19 +206,19 @@ public class ChessModel implements IChessModel {
 							}
 						}
 						if (pieceAt(r, c).type().equals("Bishop")) {
-                            Move m = new Move(r,c,move.toRow,move.toColumn);
-                            IChessPiece temp = board[move.fromRow][move.fromColumn];
-                            board[move.fromRow][move.fromColumn] = null;
-                            if (bishopTest.isValidMove(m,board)){
-                                board[move.fromRow][move.fromColumn] = temp;
+							Move m = new Move(r, c, move.toRow, move.toColumn);
+							IChessPiece temp = board[move.fromRow][move.fromColumn];
+							board[move.fromRow][move.fromColumn] = null;
+							if (bishopTest.isValidMove(m, board)) {
+								board[move.fromRow][move.fromColumn] = temp;
 								board[move.toRow][move.toColumn] = moveToTemp;
-                                return true;
-                            }
-                            board[move.fromRow][move.fromColumn] = temp;
+								return true;
+							}
+							board[move.fromRow][move.fromColumn] = temp;
 						}
 						if (pieceAt(r, c).type().equals("King")) {
-							Move m = new Move(r,c,move.toRow,move.toColumn);
-							if (kingTest.isValidMove(m,board)){
+							Move m = new Move(r, c, move.toRow, move.toColumn);
+							if (kingTest.isValidMove(m, board)) {
 								board[move.toRow][move.toColumn] = moveToTemp;
 								return true;
 							}
@@ -231,11 +233,11 @@ public class ChessModel implements IChessModel {
 
 	}
 
-	public boolean inCheck(Player p){
+	public boolean inCheck(Player p) {
 		Player p2;
-		if(p == player.WHITE){
+		if (p == player.WHITE) {
 			p2 = player.BLACK;
-		}else{
+		} else {
 			p2 = player.WHITE;
 		}
 
@@ -246,77 +248,76 @@ public class ChessModel implements IChessModel {
 		Bishop bishopTest = new Bishop(p2);
 		King kingTest = new King(p2);
 
-		int kingR=0;
-		int kingC=0;
+		int kingR = 0;
+		int kingC = 0;
 
 		for (kingR = 0; kingR < 8; kingR++) {
-            for (kingC = 0; kingC < 8; kingC++) {
-                if (pieceAt(kingR, kingC) != null && pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
+			for (kingC = 0; kingC < 8; kingC++) {
+				if (pieceAt(kingR, kingC) != null && pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
 
-                    if (pieceAt(kingR, kingC).type().equals("King")) {
-                        break;
-                    }
-                }
+					if (pieceAt(kingR, kingC).type().equals("King")) {
+						break;
+					}
+				}
 
-            }
-            if (kingC < 8) {
-                if (pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
-                    if (pieceAt(kingR, kingC).type().equals("King")) {
-                        break;
-                    }
-                }
-            }
-        }
-
-
-		for (int r = 0; r < 8; r++) {
-			for (int c = 0; c < 8; c++) {
-				if ((pieceAt(r, c) != null))
-				if (pieceAt(r, c).player() == p2){
-					if (pieceAt(r, c).type().equals("Rook")) {
-						Move m = new Move(r,c,kingR,kingC);
-						if (rookTest.isValidMove(m,board)){
-							return true;
-						}
-					}
-					if (pieceAt(r, c).type().equals("Knight")) {
-						Move m = new Move(r,c,kingR,kingC);
-						if (knightTest.isValidMove(m,board)){
-							return true;
-						}
-					}
-					if (pieceAt(r, c).type().equals("Queen")) {
-						Move m = new Move(r,c,kingR,kingC);
-						if (queenTest.isValidMove(m,board)){
-							return true;
-						}
-					}
-					if (pieceAt(r, c).type().equals("Pawn")) {
-						Move m = new Move(r,c,kingR,kingC);
-						if (pawnTest.isValidMove(m,board)){
-							return true;
-						}
-					}
-					if (pieceAt(r, c).type().equals("Bishop")) {
-						Move m = new Move(r,c,kingR,kingC);
-						if (bishopTest.isValidMove(m,board)){
-							return true;
-						}
-					}
-					if (pieceAt(r, c).type().equals("King")) {
-						Move m = new Move(r,c,kingR,kingC);
-						if (kingTest.isValidMove(m,board)){
-							return true;
-						}
+			}
+			if (kingC < 8) {
+				if (pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
+					if (pieceAt(kingR, kingC).type().equals("King")) {
+						break;
 					}
 				}
 			}
 		}
 
 
+		for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
+				if ((pieceAt(r, c) != null))
+					if (pieceAt(r, c).player() == p2) {
+						if (pieceAt(r, c).type().equals("Rook")) {
+							Move m = new Move(r, c, kingR, kingC);
+							if (rookTest.isValidMove(m, board)) {
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Knight")) {
+							Move m = new Move(r, c, kingR, kingC);
+							if (knightTest.isValidMove(m, board)) {
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Queen")) {
+							Move m = new Move(r, c, kingR, kingC);
+							if (queenTest.isValidMove(m, board)) {
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Pawn")) {
+							Move m = new Move(r, c, kingR, kingC);
+							if (pawnTest.isValidMove(m, board)) {
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("Bishop")) {
+							Move m = new Move(r, c, kingR, kingC);
+							if (bishopTest.isValidMove(m, board)) {
+								return true;
+							}
+						}
+						if (pieceAt(r, c).type().equals("King")) {
+							Move m = new Move(r, c, kingR, kingC);
+							if (kingTest.isValidMove(m, board)) {
+								return true;
+							}
+						}
+					}
+			}
+		}
+
+
 		return false;
 	}
-
 
 
 	public void move(Move move) {
@@ -327,43 +328,44 @@ public class ChessModel implements IChessModel {
 
 		int rPos = move.toRow;
 		int cPos = move.toColumn;
-		if(castling.equals("L") && board[rPos][cPos].type().equals("King") && cPos == 2){
+		if (castling.equals("L") && board[rPos][cPos].type().equals("King") && cPos == 2) {
 			board[rPos][3] = board[rPos][0];
 			board[rPos][0] = null;
-		}else if(castling.equals("R") && board[rPos][cPos].type().equals("King") && cPos == 6) {
+		} else if (castling.equals("R") && board[rPos][cPos].type().equals("King") && cPos == 6) {
 			board[rPos][5] = board[rPos][7];
 			board[rPos][7] = null;
 		}
 	}
 
-	public void checkForFirstMove(Move move){
+	public void checkForFirstMove(Move move) {
 
 		//Checks if it's the king's first move
-		if(board[move.fromRow][move.fromColumn].type() == "King") {
-            if (board[move.fromRow][move.fromColumn].player() == player.WHITE){
-                whiteKingFirstMove = false;
-            }else{
-                blackKingFirstMove = false;
-            }
+		if (board[move.fromRow][move.fromColumn].type() == "King") {
+			if (board[move.fromRow][move.fromColumn].player() == player.WHITE) {
+				whiteKingFirstMove = false;
+			} else {
+				blackKingFirstMove = false;
+			}
 		}
 
 		//Checks if it's any of the Rook's first move
-		if(board[move.fromRow][move.fromColumn].type() == "Rook"){
-			if(board[move.fromRow][move.fromColumn].player() == player.WHITE) {
-                if (move.fromColumn == 0) {
-                    whiteRookLeftFirstMove = false;
-                } else if (move.fromColumn == 7) {
-                    whiteRookRightFirstMove = false;
-                }
-            }else{
-                if (move.fromColumn == 0) {
-                    blackRookLeftFirstMove = false;
-                } else if (move.fromColumn == 7) {
-                    blackRookRightFirstMove = false;
-                }
-            }
+		if (board[move.fromRow][move.fromColumn].type() == "Rook") {
+			if (board[move.fromRow][move.fromColumn].player() == player.WHITE) {
+				if (move.fromColumn == 0) {
+					whiteRookLeftFirstMove = false;
+				} else if (move.fromColumn == 7) {
+					whiteRookRightFirstMove = false;
+				}
+			} else {
+				if (move.fromColumn == 0) {
+					blackRookLeftFirstMove = false;
+				} else if (move.fromColumn == 7) {
+					blackRookRightFirstMove = false;
+				}
+			}
 		}
 	}
+
 
 	public Player currentPlayer() {
 		return player;
@@ -384,9 +386,12 @@ public class ChessModel implements IChessModel {
 	public void setNextPlayer() {
 		Player winner = player;
 		player = player.next();
-		if(isComplete()){
+		if (isComplete()) {
 			JOptionPane.showMessageDialog(null, "Checkmate! " + winner.toString() + " wins!");
 			System.exit(0);
+		}
+		if (inCheck(player)) {
+			JOptionPane.showMessageDialog(null, player + " player is in check");
 		}
 	}
 
@@ -398,12 +403,14 @@ public class ChessModel implements IChessModel {
 		Random rNum = new Random();
 		int randomR = rNum.nextInt(8);
 		int randomC = rNum.nextInt(8);
+		randomR = rNum.nextInt(8);
+		randomC = rNum.nextInt(8);
 
 		//a
 		Player p = currentPlayer();
 		if (inCheck(p)) {
-			int kingR=0;
-			int kingC=0;
+			int kingR = 0;
+			int kingC = 0;
 
 			for (kingR = 0; kingR < 8; kingR++) {
 				for (kingC = 0; kingC < 8; kingC++) {
@@ -425,8 +432,10 @@ public class ChessModel implements IChessModel {
 			}
 			for (int mover = -1; mover < 2; mover++) {
 				for (int moveC = -1; moveC < 2; moveC++) {
-					if (isValidMove(new Move(kingR, kingC, kingR+mover, kingC+moveC))) {
-						move(new Move(kingR, kingC, kingR+mover, kingC+moveC));
+					if (isValidMove(new Move(kingR, kingC, kingR + mover, kingC + moveC))) {
+						move(new Move(kingR, kingC, kingR + mover, kingC + moveC));
+						setNextPlayer();
+						return;
 					}
 				}
 			}
@@ -434,24 +443,52 @@ public class ChessModel implements IChessModel {
 
 		//b
 
+		//c
+		for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
+				if (inDanger(new Move(r, c, r, c), p)) {
+					//for (int tempR = 0; tempR < 8; tempR++) {
+					//for (int tempC = 0; tempC < 8; tempC++) {
+					for (int d = 0; d < 1000; d++) {
+						if (isValidMove(new Move(r, c, randomR, randomC))) {
+							move(new Move(r, c, randomR, randomC));
+							setNextPlayer();
+							return;
+						}
+						randomR = rNum.nextInt(8);
+						randomC = rNum.nextInt(8);
+					}
 
 				}
 
-
 			}
+		}
+		for (int r = 0; r < 8; r++) {
+			for (int c = 0; c < 8; c++) {
+				if (pieceAt(r, c) != null && pieceAt(r, c).player() == p) {
+					for (int d = 0; d < 1000; d++) {
+						if (isValidMove(new Move(r, c, randomR, randomC))) {
+							move(new Move(r, c, randomR, randomC));
+							setNextPlayer();
+							return;
+						}
+						randomR = rNum.nextInt(8);
+						randomC = rNum.nextInt(8);
+					}
+
+				}
+			}
+		}
+	}
+}
+
+
+
+
+
 
 			//c
-//			for (int r = 0; r < 8; r++) {
-//				for (int c = 0; c < 8; c++) {
-//					if (inDanger(new Move(r, c, 0, 0), currentPlayer())) {
-//						if (isValidMove(new Move(r, c, randomR, randomC))) {
-//							move(new Move(r, c, randomR, randomC));
-//
-//						}
-//					}
-//
-//				}
-//			}
+
 			/*
 			 * Write a simple AI set of rules in the following order.
 			 * a. Check to see if you are in check.

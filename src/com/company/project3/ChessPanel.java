@@ -52,7 +52,6 @@ public class ChessPanel extends JPanel {
                 model.AI();
                 System.out.print("test");
                 displayBoard();
-                model.setNextPlayer();
             }
         });
         boardpanel.setLayout(new GridLayout(model.numRows(), model.numColumns(), 1, 1));
