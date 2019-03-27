@@ -110,6 +110,7 @@ public class ChessPanel extends JPanel {
             board[r][c].setBorderPainted(false);
         }
     }
+
     private void buttonAI(ActionEvent e){
         model.AI();
         System.out.print("test");

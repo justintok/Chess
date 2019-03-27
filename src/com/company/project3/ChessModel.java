@@ -16,13 +16,13 @@ public class ChessModel implements IChessModel {
     protected static boolean blackRookRightFirstMove;
 	protected static String castling;
 	protected boolean firstMove;
+	Move kingDanger;
     LinkedList<Move> undo = new LinkedList<Move>();
     LinkedList<IChessPiece> undoPiece = new LinkedList<IChessPiece>();
 
 	public ChessModel() {
 		board = new IChessPiece[8][8];
 		player = Player.WHITE;
-
 
 		//Adds Black pieces to the board
 		board[0][0] = new Rook(Player.BLACK);
@@ -123,10 +123,18 @@ public class ChessModel implements IChessModel {
 	public boolean isValidMove(Move move) {
 
 		//Cant move a different piece if the king is in check
-		if ((pieceAt(move.fromRow, move.fromColumn) != null && !pieceAt(move.fromRow,move.fromColumn).type().equals("King"))) {
-			if (inCheck(currentPlayer()))
-				return false;
-		}
+        if (inCheck(currentPlayer())) {
+            if ((pieceAt(move.fromRow, move.fromColumn) != null && !pieceAt(move.fromRow, move.fromColumn).type().equals("King"))) {
+                if (board[move.fromRow][move.fromColumn].isValidMove(move, board)) {
+                    if (move.toRow == kingDanger.fromRow && move.toColumn == kingDanger.fromColumn) {
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            }
+        }
+
 
 		//Cannot select a blank location
 		if (board[move.fromRow][move.fromColumn] != null) {
@@ -138,6 +146,7 @@ public class ChessModel implements IChessModel {
 						return false;
 					}
 				}
+
 				return true;
 			}
 		}
@@ -299,37 +308,43 @@ public class ChessModel implements IChessModel {
 					if (pieceAt(r, c).type().equals("Rook")) {
 						Move m = new Move(r,c,kingR,kingC);
 						if (rookTest.isValidMove(m,board)){
+						    kingDanger = m;
 							return true;
 						}
 					}
 					if (pieceAt(r, c).type().equals("Knight")) {
 						Move m = new Move(r,c,kingR,kingC);
 						if (knightTest.isValidMove(m,board)){
-							return true;
+                            kingDanger = m;
+						    return true;
 						}
 					}
 					if (pieceAt(r, c).type().equals("Queen")) {
 						Move m = new Move(r,c,kingR,kingC);
 						if (queenTest.isValidMove(m,board)){
-							return true;
+                            kingDanger = m;
+						    return true;
 						}
 					}
 					if (pieceAt(r, c).type().equals("Pawn")) {
 						Move m = new Move(r,c,kingR,kingC);
 						if (pawnTest.isValidMove(m,board)){
-							return true;
+                            kingDanger = m;
+						    return true;
 						}
 					}
 					if (pieceAt(r, c).type().equals("Bishop")) {
 						Move m = new Move(r,c,kingR,kingC);
 						if (bishopTest.isValidMove(m,board)){
-							return true;
+                            kingDanger = m;
+						    return true;
 						}
 					}
 					if (pieceAt(r, c).type().equals("King")) {
 						Move m = new Move(r,c,kingR,kingC);
 						if (kingTest.isValidMove(m,board)){
-							return true;
+                            kingDanger = m;
+						    return true;
 						}
 					}
 				}
