@@ -492,6 +492,9 @@ public class ChessModel implements IChessModel {
 			JOptionPane.showMessageDialog(null, "Checkmate! " + winner.toString() + " wins!");
 			System.exit(0);
 		}
+		if(inCheck(currentPlayer())){
+			JOptionPane.showMessageDialog(null, player + " player is in Check");
+		}
 	}
 
 	/****************************************************************************************************
