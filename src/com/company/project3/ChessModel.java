@@ -411,60 +411,64 @@ public class ChessModel implements IChessModel {
 
 			//Move the king randomly
 			int incr = 0;
-			for (int r = 0; r < numRows(); r++) {
-				for (int c = 0; c < numColumns(); c++) {
-					if (isValidMove(new Move(kingR, kingC, r, c))) {
-						if(incr == random){
-							move(new Move(kingR, kingC, r, c));
-						}else
-							incr++;
+			while(incr < random) {
+				for (int r = 0; r < numRows(); r++) {
+					for (int c = 0; c < numColumns(); c++) {
+						if (isValidMove(new Move(kingR, kingC, r, c))) {
+							if (incr == random) {
+								move(new Move(kingR, kingC, r, c));
+							} else
+								incr++;
+						}
 					}
 				}
 			}
 
 		//If king not in check, move a random piece
 		}else{
-			random = rNum.nextInt(18);
+			random = rNum.nextInt(15);
 			int incr = 0;
 
 			//Finds a random piece
 			findRandPieceLoop:
-			for (int r = 0; r < numRows(); r++) {
-				for (int c = 0; c < numColumns(); c++) {
-					if(board[r][c] != null && pieceAt(r,c).player() == currentPlayer()) {
+			while(incr < random) {
+				for (int r = 0; r < numRows(); r++) {
+					for (int c = 0; c < numColumns(); c++) {
+						if (board[r][c] != null && pieceAt(r, c).player() == currentPlayer()) {
 
-						//Moves that piece randomly
-						if (incr == random) {
-							int numValidMoves = 0;
+							//Moves that piece randomly
+							if (incr == random) {
+								int numValidMoves = 0;
 
-							//Finds all valid moves
-							for (int x = 0; x < numRows(); x++) {
-								for (int y = 0; y < numColumns(); y++) {
-									if (isValidMove(new Move(r, c, x, y))) {
-										numValidMoves++;
-									}
-								}
-							}
-
-							//Moves the piece to random valid location
-							if(numValidMoves > 0){
-								int randomMove = rNum.nextInt(numValidMoves);
-								int incrMove = 0;
+								//Finds all valid moves
 								for (int x = 0; x < numRows(); x++) {
 									for (int y = 0; y < numColumns(); y++) {
 										if (isValidMove(new Move(r, c, x, y))) {
-											if(incrMove == randomMove){
-												move(new Move(r, c, x, y));
-												break findRandPieceLoop;
-											}else{
-												incrMove++;
+											numValidMoves++;
+										}
+									}
+								}
+
+								//Moves the piece to random valid location
+								if (numValidMoves > 0) {
+									int randomMove = rNum.nextInt(numValidMoves);
+									int incrMove = 0;
+									for (int x = 0; x < numRows(); x++) {
+										for (int y = 0; y < numColumns(); y++) {
+											if (isValidMove(new Move(r, c, x, y))) {
+												if (incrMove == randomMove) {
+													move(new Move(r, c, x, y));
+													break findRandPieceLoop;
+												} else {
+													incrMove++;
+												}
 											}
 										}
 									}
 								}
-							}
-						} else
-							incr++;
+							} else
+								incr++;
+						}
 					}
 				}
 			}

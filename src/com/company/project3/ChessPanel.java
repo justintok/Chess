@@ -50,6 +50,7 @@ public class ChessPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 model.AI();
+                model.setNextPlayer();
                 displayBoard();
             }
         });
