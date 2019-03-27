@@ -406,6 +406,13 @@ public class ChessModel implements IChessModel {
 
 		//a
 		Player p = currentPlayer();
+		Player p2;
+		if (p == player.WHITE) {
+			p2 = player.BLACK;
+		} else {
+			p2 = player.WHITE;
+		}
+
 		if (inCheck(p)) {
 			int kingR = 0;
 			int kingC = 0;
@@ -444,7 +451,7 @@ public class ChessModel implements IChessModel {
 		//c
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
-				if (inDanger(new Move(r, c, r, c), p)) {
+				if (inDanger(new Move(r, c, 0, 0), p2)) {
 					//for (int tempR = 0; tempR < 8; tempR++) {
 					//for (int tempC = 0; tempC < 8; tempC++) {
 					for (int d = 0; d < 1000; d++) {
@@ -461,12 +468,13 @@ public class ChessModel implements IChessModel {
 
 			}
 		}
-		for (int r = 0; r < 8; r++) {
-			for (int c = 0; c < 8; c++) {
-				if (pieceAt(r, c) != null && pieceAt(r, c).player() == p) {
+		for (int l = 0; l < 1000; l++) {
+			int newR = rNum.nextInt(8);
+			int newC = rNum.nextInt(8);
+				if (pieceAt(newR, newC) != null && pieceAt(newR, newC).player() == p) {
 					for (int d = 0; d < 1000; d++) {
-						if (isValidMove(new Move(r, c, randomR, randomC))) {
-							move(new Move(r, c, randomR, randomC));
+						if (isValidMove(new Move(newR, newC, randomR, randomC))) {
+							move(new Move(newR, newC, randomR, randomC));
 							setNextPlayer();
 							return;
 						}
@@ -478,7 +486,7 @@ public class ChessModel implements IChessModel {
 			}
 		}
 	}
-}
+
 
 
 
