@@ -421,6 +421,8 @@ public class ChessModel implements IChessModel {
 					}
 				}
 			}
+
+		//If king not in check, move a random piece
 		}else{
 			random = rNum.nextInt(18);
 			int incr = 0;
