@@ -15,10 +15,9 @@ public class ChessModel implements IChessModel {
     protected static boolean blackRookLeftFirstMove;
     protected static boolean blackRookRightFirstMove;
 	protected static String castling;
+	protected boolean firstMove;
     LinkedList<Move> undo = new LinkedList<Move>();
     LinkedList<IChessPiece> undoPiece = new LinkedList<IChessPiece>();
-
-	// declare other instance variables as needed
 
 	public ChessModel() {
 		board = new IChessPiece[8][8];
@@ -69,6 +68,7 @@ public class ChessModel implements IChessModel {
         blackRookRightFirstMove = true;
 		castling = "";
 
+		firstMove = true;
 	}
 
 	public boolean isComplete() {
@@ -326,6 +326,9 @@ public class ChessModel implements IChessModel {
 	    moveUndo(undo.pollLast());
 	    setPiece(move.fromRow, move.fromColumn, undoPiece.pollLast());
 	    setNextPlayer();
+	    if(undo.size() == 0){
+	        firstMove = true;
+        }
     }
     public void moveUndo(Move move) {
         checkForFirstMove(move);
@@ -348,11 +351,9 @@ public class ChessModel implements IChessModel {
     public void move(Move move) {
 		checkForFirstMove(move);
 
+		firstMove = false;
         undoPiece.addLast(pieceAt(move.toRow,move.toColumn));
 		undo.addLast(new Move(move.toRow, move.toColumn, move.fromRow, move.fromColumn));
-
-
-
 
 		board[move.toRow][move.toColumn] = board[move.fromRow][move.fromColumn];
 		board[move.fromRow][move.fromColumn] = null;
@@ -469,6 +470,7 @@ public class ChessModel implements IChessModel {
 			        if (isValidMove(new Move(kingR, kingC, r, c))) {
 			            if(incr == random){
 			                move(new Move(kingR, kingC, r, c));
+			                return;
                         }else
                             incr++;
 			        }
@@ -581,7 +583,7 @@ public class ChessModel implements IChessModel {
 											if (isValidMove(new Move(r, c, x, y))) {
 												if (incrMove == randomMove) {
 													move(new Move(r, c, x, y));
-													break findRandPieceLoop;
+													return;
 												} else {
 													incrMove++;
 												}
@@ -597,20 +599,7 @@ public class ChessModel implements IChessModel {
 			}
 		}
 	}
-}
 
-			//c
-//			for (int r = 0; r < 8; r++) {
-//				for (int c = 0; c < 8; c++) {
-//					if (inDanger(new Move(r, c, 0, 0), currentPlayer())) {
-//						if (isValidMove(new Move(r, c, randomR, randomC))) {
-//							move(new Move(r, c, randomR, randomC));
-//
-//						}
-//					}
-//
-//				}
-//			}
 			/*
 			 * Write a simple AI set of rules in the following order.
 			 * a. Check to see if you are in check.
@@ -627,6 +616,77 @@ public class ChessModel implements IChessModel {
 			 *d. Move a piece (pawns first) forward toward opponent king
 			 *		i. check to see if that piece is in danger of being removed, if so, move a different piece.
 			 */
+
+
+//	public void save(){
+//	    for(int r = 0; r < numRows(); r++){
+//	        for(int c = 0; c < numColumns(); c++){
+//	            if(board[r][c] != null) {
+//                    if (board[r][c].player() == player.WHITE) {
+//                        save[r][c] = "w" + board[r][c].type();
+//                    } else {
+//                        save[r][c] = "b" + board[r][c].type();
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//	public void undo(){
+//	    //Erase current board
+//        for(int r = 0; r < numRows(); r++){
+//            for(int c = 0; c < numColumns(); c++){
+//                board[r][c] =  null;
+//            }
+//        }
+//
+//        //Setup previous board
+//        for(int r = 0; r < numRows(); r++){
+//            for(int c = 0; c < numColumns(); c++){
+//                if(save[r][c].substring(0,1).equals("w")){
+//                    if(save[r][c].substring(1).equals("King")){
+//                        board[r][c] = new King(player.WHITE);
+//                    }
+//                    if(save[r][c].substring(1).equals("Queen")){
+//                        board[r][c] = new Queen(player.WHITE);
+//                    }
+//                    if(save[r][c].substring(1).equals("Bishop")){
+//                        board[r][c] = new Bishop(player.WHITE);
+//                    }
+//                    if(save[r][c].substring(1).equals("Knight")){
+//                        board[r][c] = new Knight(player.WHITE);
+//                    }
+//                    if(save[r][c].substring(1).equals("Rook")){
+//                        board[r][c] = new Rook(player.WHITE);
+//                    }
+//                    if(save[r][c].substring(1).equals("Pawn")){
+//                        board[r][c] = new Pawn(player.WHITE);
+//                    }
+//                }else{
+//                    if(save[r][c].substring(1).equals("King")){
+//                        board[r][c] = new King(player.BLACK);
+//                    }
+//                    if(save[r][c].substring(1).equals("Queen")){
+//                        board[r][c] = new Queen(player.BLACK);
+//                    }
+//                    if(save[r][c].substring(1).equals("Bishop")){
+//                        board[r][c] = new Bishop(player.BLACK);
+//                    }
+//                    if(save[r][c].substring(1).equals("Knight")){
+//                        board[r][c] = new Knight(player.BLACK);
+//                    }
+//                    if(save[r][c].substring(1).equals("Rook")){
+//                        board[r][c] = new Rook(player.BLACK);
+//                    }
+//                    if(save[r][c].substring(1).equals("Pawn")){
+//                        board[r][c] = new Pawn(player.BLACK);
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+}
 
 
 

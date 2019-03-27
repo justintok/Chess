@@ -10,6 +10,7 @@ public class ChessPanel extends JPanel {
     protected static JButton[][] board;
     private ChessModel model;
     private JButton ai;
+    private JButton undo;
 
     private ImageIcon wRook;
     private ImageIcon wBishop;
@@ -44,7 +45,7 @@ public class ChessPanel extends JPanel {
         JPanel boardpanel = new JPanel();
         JPanel buttonpanel = new JPanel();
         JButton button = new JButton("AI Move");
-        JButton undo = new JButton("Undo");
+        undo = new JButton("Undo");
 
         buttonpanel.add(button);
         buttonpanel.add(undo);
@@ -53,16 +54,29 @@ public class ChessPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 model.AI();
                 model.setNextPlayer();
+                if(model.firstMove){
+                    undo.setVisible(false);
+                }else {
+                    undo.setVisible(true);
+                }
+                repaint();
                 displayBoard();
             }
         });
-            undo.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    model.undo();
-                    displayBoard();
+        undo.setVisible(false);
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.undo();
+                if(model.firstMove){
+                    undo.setVisible(false);
+                }else {
+                    undo.setVisible(true);
                 }
-            });
+                repaint();
+                displayBoard();
+            }
+        });
 
         boardpanel.setLayout(new GridLayout(model.numRows(), model.numColumns(), 1, 1));
 
@@ -157,7 +171,7 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "C:\\Users\\Jason\\Desktop\\cis163\\ChessGit\\";
+        String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
         //Our paths Copy yours and put it here ^
 
         // C:\Users\Jason\Desktop\cis163\ChessGit\\
@@ -268,6 +282,14 @@ public class ChessPanel extends JPanel {
                             }
                             displayBoard();
                             setBackGroundColor(fromRow,fromCol);
+
+                            //Show/hide undo button
+                            if(model.firstMove){
+                                undo.setVisible(false);
+                            }else {
+                                undo.setVisible(true);
+                            }
+                            repaint();
                         }
         }
     }
