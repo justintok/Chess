@@ -107,11 +107,10 @@ public class ChessModel implements IChessModel {
 		return valid;
 	}
 
-
 	public boolean isValidMove(Move move) {
 
 		//Cant move a different piece if the king is in check
-		if ((pieceAt(move.fromRow, move.fromColumn) != null&& !pieceAt(move.fromRow,move.fromColumn).type().equals("King"))) {
+		if ((pieceAt(move.fromRow, move.fromColumn) != null && !pieceAt(move.fromRow,move.fromColumn).type().equals("King"))) {
 			if (inCheck(currentPlayer()))
 				return false;
 		}
@@ -317,8 +316,6 @@ public class ChessModel implements IChessModel {
 		return false;
 	}
 
-
-
 	public void move(Move move) {
 		checkForFirstMove(move);
 
@@ -396,41 +393,81 @@ public class ChessModel implements IChessModel {
 
 	public void AI() {
 		Random rNum = new Random();
-		int randomR = rNum.nextInt(8);
-		int randomC = rNum.nextInt(8);
 
-		//a
-		Player p = currentPlayer();
-		if (inCheck(p)) {
-			int kingR=0;
-			int kingC=0;
+		//Move King out of check
+		int random = rNum.nextInt(7);
+		if (inCheck(currentPlayer())) {
+			int kingR = 0;
+			int kingC = 0;
 
-			for (kingR = 0; kingR < 8; kingR++) {
+			findKing_loop: //Find the king
+			for (kingR = 0; kingR < 8;kingR++) {
 				for (kingC = 0; kingC < 8; kingC++) {
-					if (pieceAt(kingR, kingC) != null && pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
-
-						if (pieceAt(kingR, kingC).type().equals("King")) {
-							break;
-						}
-					}
-
-				}
-				if (kingC < 8) {
-					if (pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
-						if (pieceAt(kingR, kingC).type().equals("King")) {
-							break;
-						}
+					if (pieceAt(kingR,kingC) != null && pieceAt(kingR, kingC).type().equals("King") && pieceAt(kingR,kingC).player() == currentPlayer()) {
+						break findKing_loop;
 					}
 				}
 			}
-			for (int mover = -1; mover < 2; mover++) {
-				for (int moveC = -1; moveC < 2; moveC++) {
-					if (isValidMove(new Move(kingR, kingC, kingR+mover, kingC+moveC))) {
-						move(new Move(kingR, kingC, kingR+mover, kingC+moveC));
+
+			//Move the king randomly
+			int incr = 0;
+			for (int r = 0; r < numRows(); r++) {
+				for (int c = 0; c < numColumns(); c++) {
+					if (isValidMove(new Move(kingR, kingC, r, c))) {
+						if(incr == random){
+							move(new Move(kingR, kingC, r, c));
+						}else
+							incr++;
 					}
 				}
 			}
-		}//Moves king out of check first end
+		}else{
+			random = rNum.nextInt(18);
+			int incr = 0;
+
+			//Finds a random piece
+			findRandPieceLoop:
+			for (int r = 0; r < numRows(); r++) {
+				for (int c = 0; c < numColumns(); c++) {
+					if(board[r][c] != null && pieceAt(r,c).player() == currentPlayer()) {
+
+						//Moves that piece randomly
+						if (incr == random) {
+							int numValidMoves = 0;
+
+							//Finds all valid moves
+							for (int x = 0; x < numRows(); x++) {
+								for (int y = 0; y < numColumns(); y++) {
+									if (isValidMove(new Move(r, c, x, y))) {
+										numValidMoves++;
+									}
+								}
+							}
+
+							//Moves the piece to random valid location
+							if(numValidMoves > 0){
+								int randomMove = rNum.nextInt(numValidMoves);
+								int incrMove = 0;
+								for (int x = 0; x < numRows(); x++) {
+									for (int y = 0; y < numColumns(); y++) {
+										if (isValidMove(new Move(r, c, x, y))) {
+											if(incrMove == randomMove){
+												move(new Move(r, c, x, y));
+												break findRandPieceLoop;
+											}else{
+												incrMove++;
+											}
+										}
+									}
+								}
+							}
+						} else
+							incr++;
+					}
+				}
+			}
+		}
+		//Moves king out of check first end
 
 		//b
 

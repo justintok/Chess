@@ -141,7 +141,7 @@ public class ChessTest {
 // Testing the inDanger method --------------------------------------------------
 
     @Test
-    public void testWhiteKingMoveIntoCheck(){
+    public void testWhiteMoveIntoCheckByRook(){
         ChessModel test = new ChessModel();
         test.board[5][4] = test.board[7][4];
         test.board[7][4] = null;
@@ -150,7 +150,90 @@ public class ChessTest {
 
         Move testMove = new Move(5,4,4,4);
 
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
+    }
+
+    @Test
+    public void testWhiteMoveIntoCheckByKnight(){
+        ChessModel test = new ChessModel();
+        test.board[5][4] = test.board[7][4];
+        test.board[7][4] = null;
+
+        test.setPiece(2,5,new Knight(Player.BLACK));
+
+        Move testMove = new Move(5,4,4,4);
+
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
+    }
+
+    @Test
+    public void testWhiteMoveIntoCheckByBishop(){
+        ChessModel test = new ChessModel();
+        test.board[5][4] = test.board[7][4];
+        test.board[7][4] = null;
+
+        test.setPiece(2,6,new Bishop(Player.BLACK));
+
+        Move testMove = new Move(5,4,4,4);
+
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
+    }
+
+    @Test
+    public void testWhiteMoveIntoCheckByQueen(){
+        ChessModel test = new ChessModel();
+        test.board[5][4] = test.board[7][4];
+        test.board[7][4] = null;
+
+        Move testMove = new Move(5,4,4,4);
+
+        test.setPiece(2,6,new Queen(Player.BLACK));
         assertFalse(test.isValidMove(testMove));
+        test.board[2][6] = null;
+
+        test.setPiece(2,4,new Queen(Player.BLACK));
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
+    }
+
+    @Test
+    public void testWhiteMoveIntoCheckByPawn(){
+        ChessModel test = new ChessModel();
+        test.board[5][4] = test.board[7][4];
+        test.board[7][4] = null;
+
+        Move testMove = new Move(5,4,4,4);
+
+        test.setPiece(3,5,new Pawn(Player.BLACK));
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
+        test.board[3][5] = null;
+
+        test.setPiece(3,4,new Pawn(Player.BLACK));
+        assertFalse(test.inDanger(testMove,test.currentPlayer()));
+        test.board[4][4] = null;
+
+        test.setPiece(3,3,new Pawn(Player.BLACK));
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
+        test.board[4][5] = null;
+
+        test.board[4][4] = test.board[5][4];
+        test.board[5][4] = null;
+        testMove = new Move(4,4,4,3);
+
+        test.setPiece(5,4,new Pawn(Player.BLACK));
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
+    }
+
+    @Test
+    public void testWhiteMoveIntoCheckByKing(){
+        ChessModel test = new ChessModel();
+        test.board[5][4] = test.board[7][4];
+        test.board[7][4] = null;
+
+        Move testMove = new Move(5,4,4,4);
+
+        test.setPiece(3,4,new King(Player.BLACK));
+
+        assertTrue(test.inDanger(testMove,test.currentPlayer()));
     }
 
 
@@ -161,6 +244,19 @@ public class ChessTest {
         ChessModel test = new ChessModel();
 
         Move testMove = new Move(7,3,6,3);
+
+        assertFalse(test.isValidMove(testMove));
+    }
+
+    @Test
+    public void testCantMoveOtherPieceIfWhiteKingInCheck(){
+        ChessModel test = new ChessModel();
+        test.board[5][4] = test.board[7][4];
+        test.board[7][4] = null;
+
+        test.setPiece(2,4,new Rook(Player.BLACK));
+
+        Move testMove = new Move(6,0,5,0); //Move a pawn
 
         assertFalse(test.isValidMove(testMove));
     }
@@ -231,4 +327,5 @@ public class ChessTest {
         assertTrue(test.board[7][5].type().equals("Rook"));
         assertTrue(test.castling == "R");
     }
+
 }
