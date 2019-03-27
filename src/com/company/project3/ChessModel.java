@@ -512,22 +512,25 @@ public class ChessModel implements IChessModel {
 											if (pieceAt(r, c).type().equals("Rook")) {
 												if (x == kingR || y == kingC) {
 													move(new Move(r, c, x, y));
-													numValidMoves = 0;
-													break findRandPieceLoop;
+													return;
 												}
 											}
 											if (pieceAt(r, c).type().equals("Bishop")) {
 												if (Math.abs(x - kingR) == Math.abs(y - kingC)) {
 													move(new Move(r, c, x, y));
-													numValidMoves = 0;
-													break findRandPieceLoop;
+													return;
 												}
 											}
 											if (pieceAt(r, c).type().equals("Knight")) {
 												if ((Math.abs(x - kingR) == 2 && Math.abs(y - kingC) == 1) || (Math.abs(x - kingR) == 1 && Math.abs(y - kingC) == 2)) {
 													move(new Move(r, c, x, y));
-													numValidMoves = 0;
-													break findRandPieceLoop;
+													return;
+												}
+											}
+											if (pieceAt(r, c).type().equals("Queen")) {
+												if (Math.abs(x - kingR) == Math.abs(y - kingC) || x == kingR || y == kingC) {
+													move(new Move(r, c, x, y));
+													return;
 												}
 											}
 										}
@@ -558,15 +561,8 @@ public class ChessModel implements IChessModel {
 				}
 			}
 		}
-		//Moves king out of check first end
-
-		//b
-
-
-				}
-
-
-			}
+	}
+}
 
 			//c
 //			for (int r = 0; r < 8; r++) {
