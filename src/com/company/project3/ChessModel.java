@@ -111,7 +111,7 @@ public class ChessModel implements IChessModel {
 	public boolean isValidMove(Move move) {
 
 		//Cant move a different piece if the king is in check
-		if (!pieceAt(move.fromRow,move.fromColumn).type().equals("King")) {
+		if ((pieceAt(move.fromRow, move.fromColumn) != null&& !pieceAt(move.fromRow,move.fromColumn).type().equals("King"))) {
 			if (inCheck(currentPlayer()))
 				return false;
 		}
@@ -399,43 +399,76 @@ public class ChessModel implements IChessModel {
 		int randomR = rNum.nextInt(8);
 		int randomC = rNum.nextInt(8);
 
-
-
 		//a
 		Player p = currentPlayer();
-		if (inCheck(p)){
+		if (inCheck(p)) {
+			int kingR=0;
+			int kingC=0;
 
+			for (kingR = 0; kingR < 8; kingR++) {
+				for (kingC = 0; kingC < 8; kingC++) {
+					if (pieceAt(kingR, kingC) != null && pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
 
-		}
+						if (pieceAt(kingR, kingC).type().equals("King")) {
+							break;
+						}
+					}
 
-		//c
-		for (int r = 0; r < 8; r++) {
-			for (int c = 0; c < 8; c++) {
-				if (inDanger(new Move(r,c,0,0),currentPlayer())){
-					if (isValidMove(new Move (r,c,randomR,randomC))){
-						move(new Move (r,c,randomR,randomC));
-
+				}
+				if (kingC < 8) {
+					if (pieceAt(kingR, kingC).player() != null && pieceAt(kingR, kingC).player() == p) {
+						if (pieceAt(kingR, kingC).type().equals("King")) {
+							break;
+						}
 					}
 				}
+			}
+			for (int mover = -1; mover < 2; mover++) {
+				for (int moveC = -1; moveC < 2; moveC++) {
+					if (isValidMove(new Move(kingR, kingC, kingR+mover, kingC+moveC))) {
+						move(new Move(kingR, kingC, kingR+mover, kingC+moveC));
+					}
+				}
+			}
+		}//Moves king out of check first end
+
+		//b
+
+
+				}
+
 
 			}
-		}
-		/*
-		 * Write a simple AI set of rules in the following order.
-		 * a. Check to see if you are in check.
-		 * 		i. If so, get out of check by moving the king or placing a piece to block the check
-		 *
-		 * b. Attempt to put opponent into check (or checkmate).
-		 * 		i. Attempt to put opponent into check without losing your piece
-		 *		ii. Perhaps you have won the game.
-		 *
-		 *c. Determine if any of your pieces are in danger,
-		 *		i. Move them if you can.
-		 *		ii. Attempt to protect that piece.
-		 *
-		 *d. Move a piece (pawns first) forward toward opponent king
-		 *		i. check to see if that piece is in danger of being removed, if so, move a different piece.
-		 */
 
-		}
-}
+			//c
+//			for (int r = 0; r < 8; r++) {
+//				for (int c = 0; c < 8; c++) {
+//					if (inDanger(new Move(r, c, 0, 0), currentPlayer())) {
+//						if (isValidMove(new Move(r, c, randomR, randomC))) {
+//							move(new Move(r, c, randomR, randomC));
+//
+//						}
+//					}
+//
+//				}
+//			}
+			/*
+			 * Write a simple AI set of rules in the following order.
+			 * a. Check to see if you are in check.
+			 * 		i. If so, get out of check by moving the king or placing a piece to block the check
+			 *
+			 * b. Attempt to put opponent into check (or checkmate).
+			 * 		i. Attempt to put opponent into check without losing your piece
+			 *		ii. Perhaps you have won the game.
+			 *
+			 *c. Determine if any of your pieces are in danger,
+			 *		i. Move them if you can.
+			 *		ii. Attempt to protect that piece.
+			 *
+			 *d. Move a piece (pawns first) forward toward opponent king
+			 *		i. check to see if that piece is in danger of being removed, if so, move a different piece.
+			 */
+
+
+
+
