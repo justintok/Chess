@@ -2,6 +2,7 @@ package com.company.project3;
 
 import javax.swing.*;
 import java.util.Random;
+import java.util.*;
 
 public class ChessModel implements IChessModel {
     protected IChessPiece[][] board;
@@ -14,12 +15,15 @@ public class ChessModel implements IChessModel {
     protected static boolean blackRookLeftFirstMove;
     protected static boolean blackRookRightFirstMove;
 	protected static String castling;
+    LinkedList<Move> undo = new LinkedList<Move>();
+    LinkedList<IChessPiece> undoPiece = new LinkedList<IChessPiece>();
 
 	// declare other instance variables as needed
 
 	public ChessModel() {
 		board = new IChessPiece[8][8];
 		player = Player.WHITE;
+
 
 		//Adds Black pieces to the board
 		board[0][0] = new Rook(Player.BLACK);
@@ -316,8 +320,39 @@ public class ChessModel implements IChessModel {
 		return false;
 	}
 
-	public void move(Move move) {
+	public void undo(){
+	    Move move =(undo.getLast());
+	    boolean cap = false;
+	    moveUndo(undo.pollLast());
+	    setPiece(move.fromRow, move.fromColumn, undoPiece.pollLast());
+	    setNextPlayer();
+    }
+    public void moveUndo(Move move) {
+        checkForFirstMove(move);
+
+        board[move.toRow][move.toColumn] = board[move.fromRow][move.fromColumn];
+        board[move.fromRow][move.fromColumn] = null;
+
+        int rPos = move.toRow;
+        int cPos = move.toColumn;
+        if(castling.equals("L") && board[rPos][cPos].type().equals("King") && cPos == 2){
+            board[rPos][3] = board[rPos][0];
+            board[rPos][0] = null;
+        }else if(castling.equals("R") && board[rPos][cPos].type().equals("King") && cPos == 6) {
+            board[rPos][5] = board[rPos][7];
+            board[rPos][7] = null;
+        }
+    }
+
+
+    public void move(Move move) {
 		checkForFirstMove(move);
+
+        undoPiece.addLast(pieceAt(move.toRow,move.toColumn));
+		undo.addLast(new Move(move.toRow, move.toColumn, move.fromRow, move.fromColumn));
+
+
+
 
 		board[move.toRow][move.toColumn] = board[move.fromRow][move.fromColumn];
 		board[move.fromRow][move.fromColumn] = null;

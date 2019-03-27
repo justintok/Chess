@@ -44,8 +44,10 @@ public class ChessPanel extends JPanel {
         JPanel boardpanel = new JPanel();
         JPanel buttonpanel = new JPanel();
         JButton button = new JButton("AI Move");
+        JButton undo = new JButton("Undo");
 
         buttonpanel.add(button);
+        buttonpanel.add(undo);
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,6 +56,14 @@ public class ChessPanel extends JPanel {
                 displayBoard();
             }
         });
+            undo.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    model.undo();
+                    displayBoard();
+                }
+            });
+
         boardpanel.setLayout(new GridLayout(model.numRows(), model.numColumns(), 1, 1));
 
         for (int r = 0; r < model.numRows(); r++) {
@@ -147,7 +157,7 @@ public class ChessPanel extends JPanel {
     }
 
     private void createIcons() {
-        String path = "/Users/joshk/Desktop/Programming/cis163/Chess/p3 starting code/";
+        String path = "C:\\Users\\Jason\\Desktop\\cis163\\ChessGit\\";
         //Our paths Copy yours and put it here ^
 
         // C:\Users\Jason\Desktop\cis163\ChessGit\\
