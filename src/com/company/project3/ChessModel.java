@@ -194,11 +194,11 @@ public class ChessModel implements IChessModel {
 									board[move.toRow][move.toColumn] = moveToTemp;
 									return true;
 								}
-								if (p2 == player.WHITE) {
-									if (move.toRow - r == -1 && Math.abs(move.toColumn - c) == 1) {
-										board[move.toRow][move.toColumn] = moveToTemp;
-										return true;
-									}
+							}
+							if (p2 == player.WHITE) {
+								if (move.toRow - r == -1 && Math.abs(move.toColumn - c) == 1) {
+									board[move.toRow][move.toColumn] = moveToTemp;
+									return true;
 								}
 							}
 						}
