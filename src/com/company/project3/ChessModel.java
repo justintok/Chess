@@ -435,25 +435,72 @@ public class ChessModel implements IChessModel {
 
 		//If king not in check, move a random piece
 		}else{
-			random = rNum.nextInt(15);
-			int incr = 0;
+
+			//Finds the number of pieces
+			int numPieces = 0;
+			for (int r = 0; r < numRows(); r++) {
+				for (int c = 0; c < numColumns(); c++) {
+					if (board[r][c] != null && pieceAt(r, c).player() == currentPlayer()) {
+						numPieces++;
+					}
+				}
+			}
+
+			boolean repeat = true;
 
 			//Finds a random piece
 			findRandPieceLoop:
-			while(incr != random) {
+			while(repeat) {
+				random = rNum.nextInt(numPieces);
+				int incr = 0;
 				for (int r = 0; r < numRows(); r++) {
 					for (int c = 0; c < numColumns(); c++) {
 						if (board[r][c] != null && pieceAt(r, c).player() == currentPlayer()) {
 
 							//Moves that piece randomly
 							if (incr == random) {
+
+								//Find the enemy king
+								int kingR = 0;
+								int kingC = 0;
+								findKing_loop:
+								//Find the king
+								for (kingR = 0; kingR < 8; kingR++) {
+									for (kingC = 0; kingC < 8; kingC++) {
+										if (pieceAt(kingR, kingC) != null && pieceAt(kingR, kingC).type().equals("King") && pieceAt(kingR, kingC).player() == currentPlayer().next()) {
+											break findKing_loop;
+										}
+									}
+								}
+
 								int numValidMoves = 0;
 
-								//Finds all valid moves
+								//Finds all valid moves. Will put opposing king in check if possible
 								for (int x = 0; x < numRows(); x++) {
 									for (int y = 0; y < numColumns(); y++) {
 										if (isValidMove(new Move(r, c, x, y))) {
 											numValidMoves++;
+											if (pieceAt(r, c).type().equals("Rook")) {
+												if (x == kingR || y == kingC) {
+													move(new Move(r, c, x, y));
+													numValidMoves = 0;
+													break findRandPieceLoop;
+												}
+											}
+											if (pieceAt(r, c).type().equals("Bishop")) {
+												if (Math.abs(x - kingR) == Math.abs(y - kingC)) {
+													move(new Move(r, c, x, y));
+													numValidMoves = 0;
+													break findRandPieceLoop;
+												}
+											}
+											if (pieceAt(r, c).type().equals("Knight")) {
+												if ((Math.abs(x - kingR) == 2 && Math.abs(y - kingC) == 1) || (Math.abs(x - kingR) == 1 && Math.abs(y - kingC) == 2)) {
+													move(new Move(r, c, x, y));
+													numValidMoves = 0;
+													break findRandPieceLoop;
+												}
+											}
 										}
 									}
 								}
