@@ -523,6 +523,21 @@ public class ChessModel implements IChessModel {
 			int kingR = 0;
 			int kingC = 0;
 
+            for (int r = 0; r < 8;r++) {
+                for (int c = 0; c < 8; c++) {
+                    if (pieceAt(r,c) != null && !pieceAt(r, c).type().equals("King") && pieceAt(r,c).player() == currentPlayer()) {
+                        for (int x = 0; x < numRows(); x++) {
+                            for (int y = 0; y < numColumns(); y++) {
+                                if (isValidMove(new Move(r, c, x, y))) {
+                                    move(new Move(r, c, x, y));
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
 			findKing_loop: //Find the king
 			for (kingR = 0; kingR < 8;kingR++) {
 				for (kingC = 0; kingC < 8; kingC++) {
