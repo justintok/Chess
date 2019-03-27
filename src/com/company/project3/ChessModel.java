@@ -118,15 +118,13 @@ public class ChessModel implements IChessModel {
 		}
 
 		if (board[move.fromRow][move.fromColumn] != null) {
+			//Calls the ChessPiece level isValidMove method
 			if (board[move.fromRow][move.fromColumn].isValidMove(move, board)) {
-				if (board[move.fromRow][move.fromColumn].type().equals("King")) {
-					//for (int i = -1; i<= 1; i++){
-					//	for (int n = -1; n<= 1; n++){ //Checks 8 surrounding places around the king to see where he can move
-					if (inDanger(move, currentPlayer())) { //old move param: new Move(move.fromRow+i,move.fromColumn+n,move.toRow,move.toColumn)
+				//If you are moving the king, makes sure you cannot move into an inCheck position
+				if(board[move.fromRow][move.fromColumn].type().equals("King")) {
+					if (inDanger(move,currentPlayer())){
 						return false;
 					}
-					//	}
-					//}
 				}
 				return true;
 			}
