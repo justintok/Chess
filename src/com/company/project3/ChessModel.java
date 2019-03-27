@@ -409,19 +409,28 @@ public class ChessModel implements IChessModel {
 				}
 			}
 
-			//Move the king randomly
+			//Find the number of Valid moves for the king
+			int numValidMoves = 0;
+			for (int r = 0; r < numRows(); r++) {
+			    for (int c = 0; c < numColumns(); c++) {
+			        if (isValidMove(new Move(kingR, kingC, r, c))) {
+			            numValidMoves++;
+			        }
+			    }
+			}
+
+			//Moves the king to a random valid location
+			random = rNum.nextInt(numValidMoves);
 			int incr = 0;
-			while(incr < random) {
-				for (int r = 0; r < numRows(); r++) {
-					for (int c = 0; c < numColumns(); c++) {
-						if (isValidMove(new Move(kingR, kingC, r, c))) {
-							if (incr == random) {
-								move(new Move(kingR, kingC, r, c));
-							} else
-								incr++;
-						}
-					}
-				}
+			for (int r = 0; r < numRows(); r++) {
+			    for (int c = 0; c < numColumns(); c++) {
+			        if (isValidMove(new Move(kingR, kingC, r, c))) {
+			            if(incr == random){
+			                move(new Move(kingR, kingC, r, c));
+                        }else
+                            incr++;
+			        }
+			    }
 			}
 
 		//If king not in check, move a random piece
@@ -431,7 +440,7 @@ public class ChessModel implements IChessModel {
 
 			//Finds a random piece
 			findRandPieceLoop:
-			while(incr < random) {
+			while(incr != random) {
 				for (int r = 0; r < numRows(); r++) {
 					for (int c = 0; c < numColumns(); c++) {
 						if (board[r][c] != null && pieceAt(r, c).player() == currentPlayer()) {
