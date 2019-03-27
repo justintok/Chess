@@ -19,13 +19,18 @@ public abstract class ChessPiece implements IChessPiece {
 
 		//  THIS IS A START... More coding needed
 
-		
-		if (!((move.fromRow == move.toRow) && (move.fromColumn == move.toColumn))) { //If its new location is not the original location
-			
-			if (board[move.toRow][move.toColumn] == null || board[move.fromRow][move.fromColumn].player() != board[move.toRow][move.toColumn].player()) //Can only move into a space with no piece or a enemy piece
+		try {
+			if (!((move.fromRow == move.toRow) && (move.fromColumn == move.toColumn))) { //If its new location is not the original location
+
+				if (board[move.toRow][move.toColumn] == null || board[move.fromRow][move.fromColumn].player() != board[move.toRow][move.toColumn].player()) //Can only move into a space with no piece or a enemy piece
 				{
-					valid = true; }
-			//}
+					valid = true;
+				}
+				//}
+			}
+		}
+		catch (IndexOutOfBoundsException e){
+
 		}
 
 		return valid;
