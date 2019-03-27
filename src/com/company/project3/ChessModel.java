@@ -71,6 +71,10 @@ public class ChessModel implements IChessModel {
 		firstMove = true;
 	}
 
+	/****************************************************************************************************
+	 * Checks for a Checkmate
+	 * @return True if current player is in Checkmate
+	 */
 	public boolean isComplete() {
 		boolean valid = true;
 		Move testMove = new Move();
@@ -111,6 +115,11 @@ public class ChessModel implements IChessModel {
 		return valid;
 	}
 
+	/****************************************************************************************************
+	 * Checks if the given move is a valid one
+	 * @param move a {@link W18project3.Move} object describing the move to be made
+	 * @return True if the given move is a valid one
+	 */
 	public boolean isValidMove(Move move) {
 
 		//Cant move a different piece if the king is in check
@@ -135,6 +144,12 @@ public class ChessModel implements IChessModel {
 		return false;
 	}
 
+	/****************************************************************************************************
+	 * Checks if the given move will put the moved piece in danger
+	 * @param move a object describing the move to be made
+	 * @param p an object describing the player color of the piece to be moved
+	 * @return True if the move will put the moved piece in danger
+	 */
 	public boolean inDanger(Move move, Player p){
 
 		//finds current player and opposing player
@@ -234,6 +249,11 @@ public class ChessModel implements IChessModel {
 
 	}
 
+	/****************************************************************************************************
+	 * Checks if the king is in check
+	 * @param  p {@link W18project3.Move} the Player being checked
+	 * @return True if the king is in check
+	 */
 	public boolean inCheck(Player p){
 		Player p2;
 		if(p == player.WHITE){
@@ -320,6 +340,9 @@ public class ChessModel implements IChessModel {
 		return false;
 	}
 
+	/****************************************************************************************************
+	 * Undoes the previous move
+	 */
 	public void undo(){
 	    Move move =(undo.getLast());
 	    boolean cap = false;
@@ -330,7 +353,12 @@ public class ChessModel implements IChessModel {
 	        firstMove = true;
         }
     }
-    public void moveUndo(Move move) {
+
+	/****************************************************************************************************
+	 * Moves the previously moved piece back to its original location
+	 * @param move an object describing the move to be made
+	 */
+	public void moveUndo(Move move) {
         checkForFirstMove(move);
 
         board[move.toRow][move.toColumn] = board[move.fromRow][move.fromColumn];
@@ -347,8 +375,11 @@ public class ChessModel implements IChessModel {
         }
     }
 
-
-    public void move(Move move) {
+	/****************************************************************************************************
+	 * Moves a piece
+	 * @param move a {@link W18project3.Move} object describing the move to be made
+	 */
+	public void move(Move move) {
 		checkForFirstMove(move);
 
 		firstMove = false;
@@ -369,6 +400,10 @@ public class ChessModel implements IChessModel {
 		}
 	}
 
+	/****************************************************************************************************
+	 * Checks if the move is the first move of any king or rook (used for Castling)
+	 * @param move an object describing the move to be made
+	 */
 	public void checkForFirstMove(Move move){
 
 		//Checks if it's the king's first move
@@ -398,22 +433,43 @@ public class ChessModel implements IChessModel {
 		}
 	}
 
+	/****************************************************************************************************
+	 * Returns the current player (White/Black)
+	 * @return the player instance variable
+	 */
 	public Player currentPlayer() {
 		return player;
 	}
 
+	/****************************************************************************************************
+	 * Returns the number of rows on the board
+	 * @return 8
+	 */
 	public int numRows() {
 		return 8;
 	}
 
+	/****************************************************************************************************
+	 * Returns the number of columns on the board
+	 * @return 8
+	 */
 	public int numColumns() {
 		return 8;
 	}
 
+	/****************************************************************************************************
+	 * Returns the piece at the given row and column coordinates
+	 * @param row an integer that represents the row number on the board
+	 * @param column an integer that represents the column number on the board
+	 * @return the chess piece at the row and column coordinates given
+	 */
 	public IChessPiece pieceAt(int row, int column) {
 		return board[row][column];
 	}
 
+	/****************************************************************************************************
+	 * Changes the current player to the other player
+	 */
 	public void setNextPlayer() {
 		Player winner = player;
 		player = player.next();
@@ -423,10 +479,19 @@ public class ChessModel implements IChessModel {
 		}
 	}
 
+	/****************************************************************************************************
+	 * Sets a chess piece at the location at the given row and column coordinates
+	 * @param row an integer that represents the row number on the board
+	 * @param column an integer that represents the column number on the board
+	 * @param piece an object that describes the chess piece to be placed
+	 */
 	public void setPiece(int row, int column, IChessPiece piece) {
 		board[row][column] = piece;
 	}
 
+	/****************************************************************************************************
+	 * Makes an Artificial intelligence move
+	 */
 	public void AI() {
 		Random rNum = new Random();
 		Player p2;
@@ -616,75 +681,6 @@ public class ChessModel implements IChessModel {
 			 *d. Move a piece (pawns first) forward toward opponent king
 			 *		i. check to see if that piece is in danger of being removed, if so, move a different piece.
 			 */
-
-
-//	public void save(){
-//	    for(int r = 0; r < numRows(); r++){
-//	        for(int c = 0; c < numColumns(); c++){
-//	            if(board[r][c] != null) {
-//                    if (board[r][c].player() == player.WHITE) {
-//                        save[r][c] = "w" + board[r][c].type();
-//                    } else {
-//                        save[r][c] = "b" + board[r][c].type();
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//	public void undo(){
-//	    //Erase current board
-//        for(int r = 0; r < numRows(); r++){
-//            for(int c = 0; c < numColumns(); c++){
-//                board[r][c] =  null;
-//            }
-//        }
-//
-//        //Setup previous board
-//        for(int r = 0; r < numRows(); r++){
-//            for(int c = 0; c < numColumns(); c++){
-//                if(save[r][c].substring(0,1).equals("w")){
-//                    if(save[r][c].substring(1).equals("King")){
-//                        board[r][c] = new King(player.WHITE);
-//                    }
-//                    if(save[r][c].substring(1).equals("Queen")){
-//                        board[r][c] = new Queen(player.WHITE);
-//                    }
-//                    if(save[r][c].substring(1).equals("Bishop")){
-//                        board[r][c] = new Bishop(player.WHITE);
-//                    }
-//                    if(save[r][c].substring(1).equals("Knight")){
-//                        board[r][c] = new Knight(player.WHITE);
-//                    }
-//                    if(save[r][c].substring(1).equals("Rook")){
-//                        board[r][c] = new Rook(player.WHITE);
-//                    }
-//                    if(save[r][c].substring(1).equals("Pawn")){
-//                        board[r][c] = new Pawn(player.WHITE);
-//                    }
-//                }else{
-//                    if(save[r][c].substring(1).equals("King")){
-//                        board[r][c] = new King(player.BLACK);
-//                    }
-//                    if(save[r][c].substring(1).equals("Queen")){
-//                        board[r][c] = new Queen(player.BLACK);
-//                    }
-//                    if(save[r][c].substring(1).equals("Bishop")){
-//                        board[r][c] = new Bishop(player.BLACK);
-//                    }
-//                    if(save[r][c].substring(1).equals("Knight")){
-//                        board[r][c] = new Knight(player.BLACK);
-//                    }
-//                    if(save[r][c].substring(1).equals("Rook")){
-//                        board[r][c] = new Rook(player.BLACK);
-//                    }
-//                    if(save[r][c].substring(1).equals("Pawn")){
-//                        board[r][c] = new Pawn(player.BLACK);
-//                    }
-//                }
-//            }
-//        }
-//    }
 
 }
 
