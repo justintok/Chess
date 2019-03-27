@@ -393,6 +393,13 @@ public class ChessModel implements IChessModel {
 
 	public void AI() {
 		Random rNum = new Random();
+		Player p2;
+		Player p = currentPlayer();
+		if(p == player.WHITE){
+			p2 = player.BLACK;
+		}else{
+			p2 = player.WHITE;
+		}
 
 		//Move King out of check
 		int random = rNum.nextInt(7);
@@ -433,8 +440,30 @@ public class ChessModel implements IChessModel {
 			    }
 			}
 
+
 		//If king not in check, move a random piece
 		}else{
+			//Takes enemy piece if in possible
+			
+			for (int r = 0; r < numRows(); r++) {
+				for (int c = 0; c < numColumns(); c++) {
+					if (board[r][c] != null && pieceAt(r,c).player()!=currentPlayer() &&inDanger(new Move(r,c,r,c),p2)) {
+						for (int newR = 0; newR < numRows(); newR++) {
+							for (int newC = 0; newC < numColumns(); newC++) {
+								if (isValidMove(new Move(newR, newC, r, c))) {
+									move(new Move(newR, newC, r, c));
+									return;
+
+								}
+							}
+						}
+
+
+
+					}
+				}
+			}
+
 
 			//Finds the number of pieces
 			int numPieces = 0;
