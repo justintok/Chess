@@ -1,4 +1,4 @@
-package com.company.project3;
+package oldChess;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,6 +1,4 @@
-package com.company.project3;
-
-import java.awt.*;
+package oldChess;
 
 public class Knight extends ChessPiece {
 
