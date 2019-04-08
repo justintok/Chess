@@ -149,15 +149,26 @@ public class Mix {
     }
 
 	private void cut(int start, int stop, int clipNum) {
+		remove(start,stop);
+		copy(start,stop,clipNum);
 
 	}
 
 	private void copy(int start, int stop, int clipNum) {
+		int count = stop -start;
+		String temp = "";
+		for (int i = 0; i<= count;i++){
+			temp = temp + message.get(start+i);
+
+		}
+		clipBoard.addClip(temp);
 
 	}
 
 	private void paste( int index, int clipNum) {
-        //insertbefore(,index);
+		String temp = "" + clipBoard.getClip(clipNum);
+		insertbefore(temp,index);
+
 	}
          
 	private void insertbefore(String token, int index) {
