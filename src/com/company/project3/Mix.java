@@ -26,16 +26,24 @@ public class Mix {
 		System.out.println("Enter your message: ");
 		Scanner scnr = new Scanner(System.in);
 		mix.userMessage = scnr.nextLine();
-		char[] charMessage = mix.userMessage.toCharArray();
-		mix.message.top = new NodeD(charMessage[0],null,null);
-		mix.message.cursor = mix.message.top;
-		for(int i = 1; i < charMessage.length; i++){
-			mix.message.cursor.setNext(new NodeD(charMessage[i],mix.message.cursor,null));
-			mix.message.cursor = mix.message.cursor.getNext();
-		}
+		mix.initLinkedList();
 		mix.mixture();
 	}
 
+	public void initLinkedList(){
+        char[] charMessage = userMessage.toCharArray();
+        message.top = new NodeD();
+        message.top.setData(charMessage[0]);
+        message.top.setPrev(null);
+        message.top.setNext(new NodeD());
+        message.top.getNext().setData(charMessage[1]);
+        message.cursor = message.top.getNext();
+        for(int i = 2; i < charMessage.length; i++){
+            message.cursor.setNext(new NodeD(charMessage[i],null,message.cursor));
+            message.cursor = message.cursor.getNext();
+        }
+        System.out.println(message.toString());
+    }
 
 	private void mixture() {
 		do {
@@ -112,7 +120,7 @@ public class Mix {
 
 	private void DisplayMessage() {
 		System.out.print ("Message:\n");
-		//userMessage = message.toString();
+		userMessage = message.toString();
 		for (int i = 0; i < userMessage.length(); i++) 
 			System.out.printf ("%3d", i);
 		System.out.format ("\n");
