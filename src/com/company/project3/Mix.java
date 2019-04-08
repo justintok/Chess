@@ -119,7 +119,9 @@ public class Mix {
 	}
          
 	private void insertbefore(String token, int index) {
-
+        for(int i = token.length()-1; i >= 0; i--){
+            message.insert(token.charAt(i),index);
+        }
 	}
 
 	private void DisplayMessage() {

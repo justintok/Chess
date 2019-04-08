@@ -1,5 +1,7 @@
 package com.company.project3;
 
+import org.w3c.dom.Node;
+
 public class DoubleLinkedList<E>  {
 	protected NodeD<E> top;      // The first NodeD<E> in the list
 
@@ -17,7 +19,6 @@ public class DoubleLinkedList<E>  {
 		for (int i = 0; i < position; i++)
 			cursor = cursor.getNext();
 		return cursor.getData();
-
 	}
 
 	public String toString() {
@@ -60,7 +61,30 @@ public class DoubleLinkedList<E>  {
 		cursor.getNext().setPrev(cursor.getPrev());
 	}
 
-	// Create the rest of the needed methods.
+    public void insert(char character, int index) {
+        cursor = top;
+
+        //If inserting at first index
+        if(index == 0){
+            NodeD temp = top;
+            top = new NodeD(character,temp,null);
+            temp.setPrev(top);
+            return;
+        }
+
+        for (int i = 0; i < index; i++){
+            cursor = cursor.getNext();
+            if (cursor == null) {
+                throw new IllegalArgumentException("given index is out of bounds");
+            }
+        }
+
+        NodeD temp = new NodeD(character,cursor,cursor.getPrev());
+        cursor.getPrev().setNext(temp);
+        cursor.setPrev(temp);
+    }
+
+    // Create the rest of the needed methods.
 
 
 }
