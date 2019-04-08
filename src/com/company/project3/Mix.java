@@ -9,6 +9,7 @@ public class Mix {
 	private DoubleLinkedList<Character> message;
 	private String undoCommands;
 	private Hashtable<Integer, DoubleLinkedList<Character>> clipBoards;
+	private clipBdLinkedList clipBoard;
 
 	private String userMessage;
 	private Scanner scan;
@@ -54,7 +55,7 @@ public class Mix {
 			String currUndoCommands = undoCommands;
 
 			try {
-				String command = scan.next("[Qbrpcxh]");
+				String command = scan.next("[Qbdrpcxh]");
 
 				switch (command) {
 				case "Q":
@@ -64,6 +65,9 @@ public class Mix {
 				case "b":
 					insertbefore(scan.next(), scan.nextInt());
 					break;
+				case "d":
+                    delete(scan.next());
+                    break;
 				case "r":
 					remove(scan.nextInt(), scan.nextInt());
 					break;
@@ -106,6 +110,22 @@ public class Mix {
         }
 	}
 
+    private void delete(String c) {
+	    if(c.length() > 1 || c.length() < 1){
+	        throw new IllegalArgumentException("Input is not a single character");
+        }
+	    char chr = c.charAt(0);
+	    NodeD temp = message.top;
+	    int count = 0;
+	    while(temp != null){
+	        if(temp.getData().equals(chr)){
+	            message.delete(count);
+            }else
+                count++;
+	        temp = temp.getNext();
+        }
+    }
+
 	private void cut(int start, int stop, int clipNum) {
 
 	}
@@ -115,7 +135,7 @@ public class Mix {
 	}
 
 	private void paste( int index, int clipNum) {
-
+        //insertbefore(,index);
 	}
          
 	private void insertbefore(String token, int index) {
@@ -152,8 +172,9 @@ public class Mix {
 	private void helpPage() {
 		System.out.println("Commands:");
 		System.out.println("\tQ filename	means, quit! " + " save to filename" );			
-		System.out.println("\t  ~ is used for a space character" );		
-		System.out.println("\t .... etc" );		
+		System.out.println("\t  ~ is used for a space character" );
+        System.out.println("\tb * #\tinserts the element * at index #. All characters after # shift down" );
+        System.out.println("\tr # *\tremoves the string between the range # to * inclusive");
 		System.out.println("\th\tmeans to show this help page");
 	}
 }

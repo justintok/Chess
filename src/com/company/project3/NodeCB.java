@@ -4,8 +4,37 @@ public class NodeCB {
     private int clipBoardNumber;
     private NodeD<Character> topOfClipBoard;
     private NodeCB next;
+    private NodeCB prev;
+    private String data;
 
-    public NodeCB() {
+    public NodeCB(String data, NodeCB next, NodeCB prev) {
+        this.next = next;
+        this.prev = prev;
+        this.data = data;
+    }
+
+    public void setData(String data){
+        this.data = data;
+    }
+
+    public String getData(){
+        return this.data;
+    }
+
+    public NodeCB getNext(){
+        return this.next;
+    }
+
+    public void setNext(NodeCB next){
+        this.next = next;
+    }
+
+    public NodeCB getPrev(){
+        return this.prev;
+    }
+
+    public void setPrev(NodeCB prev){
+        this.prev = prev;
     }
 
     public int getClipBoardNumber() {
