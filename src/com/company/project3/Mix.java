@@ -23,8 +23,16 @@ public class Mix {
 
 	public static void main(String[] args) {
 		Mix mix = new Mix();
-		mix.userMessage = args[0];
-		System.out.println (mix.userMessage);
+		System.out.println("Enter your message: ");
+		Scanner scnr = new Scanner(System.in);
+		mix.userMessage = scnr.nextLine();
+		char[] charMessage = mix.userMessage.toCharArray();
+		mix.message.top = new NodeD(charMessage[0],null,null);
+		mix.message.cursor = mix.message.top;
+		for(int i = 1; i < charMessage.length; i++){
+			mix.message.cursor.setNext(new NodeD(charMessage[i],mix.message.cursor,null));
+			mix.message.cursor = mix.message.cursor.getNext();
+		}
 		mix.mixture();
 	}
 
@@ -32,7 +40,7 @@ public class Mix {
 	private void mixture() {
 		do {
 			DisplayMessage();
-			System.out.print("Command: ");
+			System.out.print("Command: \n");
 
 			// save state
 			DoubleLinkedList<Character> currMessage =  new DoubleLinkedList<>();
@@ -69,7 +77,6 @@ public class Mix {
                     // No "real" error checking has been done.
 				}
 				scan.nextLine();   // should flush the buffer
-				System.out.println("For demonstration purposes only:\n" + undoCommands);
 			}
 			catch (Exception e ) {
 				System.out.println ("Error on input, previous state restored.");
@@ -105,10 +112,9 @@ public class Mix {
 
 	private void DisplayMessage() {
 		System.out.print ("Message:\n");
-		userMessage = message.toString();
-
+		//userMessage = message.toString();
 		for (int i = 0; i < userMessage.length(); i++) 
-			System.out.format ("%3d", i);
+			System.out.printf ("%3d", i);
 		System.out.format ("\n");
 		for (char c : userMessage.toCharArray()) 
 			System.out.format("%3c",c);
