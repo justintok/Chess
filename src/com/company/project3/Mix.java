@@ -69,8 +69,13 @@ public class Mix {
                     delete(scan.next());
                     break;
 				case "r":
-					remove(scan.nextInt(), scan.nextInt());
-					break;
+				    try {
+                        remove(scan.nextInt(), scan.nextInt());
+                        break;
+                    }catch(Exception e){
+				        replace(scan.next(), scan.next());
+				        break;
+                    }
 				case "c":
 					copy(scan.nextInt(), scan.nextInt(), scan.nextInt());
 					break;
@@ -118,11 +123,28 @@ public class Mix {
 	    NodeD temp = message.top;
 	    int count = 0;
 	    while(temp != null){
-	        if(temp.getData().equals(chr)){
+	        if(temp.getData().equals(chr) || (temp.getData().equals(' ') && chr == '~')){
 	            message.delete(count);
+            }
+	        temp = temp.getNext();
+            count++;
+        }
+    }
+
+    private void replace(String c, String r){
+        if((c.length() > 1 || c.length() < 1) && (r.length() > 1 || r.length() < 1)){
+            throw new IllegalArgumentException("at least one of the inputs is not a single character");
+        }
+        char chr = c.charAt(0);
+        char rep = r.charAt(0);
+        NodeD temp = message.top;
+        int count = 0;
+        while(temp != null){
+            if(temp.getData().equals(chr) || (temp.getData().equals(' ') && chr == '~')){
+                temp.setData(rep);
             }else
                 count++;
-	        temp = temp.getNext();
+            temp = temp.getNext();
         }
     }
 
@@ -176,5 +198,8 @@ public class Mix {
         System.out.println("\tb * #\tinserts the element * at index #. All characters after # shift down" );
         System.out.println("\tr # *\tremoves the string between the range # to * inclusive");
 		System.out.println("\th\tmeans to show this help page");
+		System.out.println("\td *\tdeletes all instances of * found in the message" );
+		System.out.println("\tr # *\treplaces all # in the message with *" );
+
 	}
 }
