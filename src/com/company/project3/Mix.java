@@ -125,9 +125,9 @@ public class Mix {
 	    while(temp != null){
 	        if(temp.getData().equals(chr) || (temp.getData().equals(' ') && chr == '~')){
 	            message.delete(count);
-            }
+            }else
+            	count++;
 	        temp = temp.getNext();
-            count++;
         }
     }
 
