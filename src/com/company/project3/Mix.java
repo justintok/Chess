@@ -42,7 +42,6 @@ public class Mix {
             message.cursor.setNext(new NodeD(charMessage[i],null,message.cursor));
             message.cursor = message.cursor.getNext();
         }
-        System.out.println(message.toString());
     }
 
 	private void mixture() {
@@ -99,7 +98,12 @@ public class Mix {
 	}
 
 	private void remove(int start, int stop) {
-
+        int count = stop - start;
+        message.delete(start);
+	    while(count > 0){
+            message.delete(start);
+            count--;
+        }
 	}
 
 	private void cut(int start, int stop, int clipNum) {

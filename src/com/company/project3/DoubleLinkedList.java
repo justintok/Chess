@@ -31,6 +31,34 @@ public class DoubleLinkedList<E>  {
 		return retVal;
 	}
 
+	public void delete(int position) {
+		cursor = top;
+
+		//If deleting first value
+		if (position == 0) {
+			top = top.getNext();
+			top.setPrev(null);
+			return;
+		}
+
+		//Finds the position
+		for (int i = 0; i < position; i++){
+			cursor = cursor.getNext();
+			if(cursor == null){
+				throw new IllegalArgumentException("position input param was out of bounds");
+			}
+		}
+
+		//If deleting last value
+		if(cursor.getNext() == null){
+			cursor.getPrev().setNext(null);
+			return;
+		}
+
+		//If deleting any other value
+		cursor.getPrev().setNext(cursor.getNext());
+		cursor.getNext().setPrev(cursor.getPrev());
+	}
 
 	// Create the rest of the needed methods.
 
