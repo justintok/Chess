@@ -49,7 +49,8 @@ public class UnMix {
 				// put undo commands here
 			}
 		} catch (Exception e) {
-			System.out.println("Error in command!  Problem!!!! in undo commands");
+			System.out.println("Error in command!  Problem!!!! in undo commands\n");
+			e.printStackTrace();
 			System.exit(0);
 		}
 		finally {
@@ -95,7 +96,12 @@ public class UnMix {
 
 	private void remove(int start, int stop) {
 		int count = stop - start;
-		String piece = message.toString().substring(start, stop + 1);
+		String piece;
+		try {
+			piece = message.toString().substring(start, stop + 1);
+		}catch(StringIndexOutOfBoundsException e){ //If the piece includes the last character of the message
+			piece = message.toString().substring(start);
+		}
 		message.delete(start);
 		while (count > 0) {
 			message.delete(start);

@@ -106,7 +106,8 @@ public class Mix {
 				scan.nextLine();   // should flush the buffer
 			}
 			catch (Exception e ) {
-				System.out.println ("Error on input, previous state restored.");
+				System.out.println ("Error on input, previous state restored.\n");
+				e.printStackTrace();
 				scan = new Scanner(System.in);  // should completely flush the buffer
 
 				// restore state;
@@ -178,9 +179,6 @@ public class Mix {
                 count++;
             temp = temp.getNext();
         }
-		if(rep == ' '){
-			rep = '~';
-		}
     }
 
 	private void cut(int start, int stop, int clipNum) {
@@ -248,8 +246,8 @@ public class Mix {
 		while(count < numFunctions) {
 			userMessage = message.toString();
 			int function = rand.nextInt(4)+1;
-			while(((function == 2 || function == 3) && userMessage.length() == 1)) {
-				function = rand.nextInt(4)+1;
+			while((function == 2 || function == 3) && userMessage.length() == 1) {
+				function = 1;
 			}
 
 			//InsertBefore
@@ -264,14 +262,16 @@ public class Mix {
 					token += letter;
 				}
 				insertbefore(token, index);
+			}
 
 			//Remove
-			}
 			if (function == 2) {
 				int start = rand.nextInt(userMessage.length());
-				int stop = start + rand.nextInt((userMessage.length() - 1) - start);
-				if(userMessage.length() == 2){
+				int stop;
+				if(userMessage.length() == 2 || start == userMessage.length()-1){
 					stop = start;
+				}else{
+					stop = start + rand.nextInt((userMessage.length() - 1) - start);
 				}
 				remove(start, stop);
 
@@ -281,7 +281,8 @@ public class Mix {
 				char[] charPick = userMessage.toCharArray();
 				char letter = charPick[rand.nextInt(charPick.length)];
 				String l = "";
-				l += letter;delete(l);
+				l += letter;
+				delete(l);
 
 			//Replace
 			}
