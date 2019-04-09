@@ -56,14 +56,18 @@ public class Mix {
 
 				switch (command) {
 				case "Q":
+					System.out.println("\nEnter a file name: ");
 					save(scan.next());
-					System.out.println ("Final mixed up message: \"" + message+"\"");
+					System.out.println ("\nFinal mixed up message: \"" + message+"\"");
 					System.exit(0);
 				case "b":
-					insertbefore(scan.next(), scan.nextInt());
+					String token = scan.next();
+					int index = scan.nextInt();
+					insertbefore(token,index);
 					break;
 				case "d":
-                    delete(scan.next());
+					String c = scan.next();
+                    delete(c);
                     break;
 				case "r":
 				    try {
@@ -75,7 +79,9 @@ public class Mix {
                         remove(start,stop);
                         break;
                     }catch(Exception e){
-				        replace(scan.next(), scan.next());
+				    	String delStr = scan.next();
+				    	String repStr = scan.next();
+				        replace(delStr, repStr);
 				        break;
                     }
 				case "c":
@@ -212,7 +218,7 @@ public class Mix {
 
 	private void random(){
 		Random rand = new Random();
-		int numFunctions = 1;//rand.nextInt(5)+1;
+		int numFunctions = rand.nextInt(6)+5;
 		int count = 0;
 		while(count < numFunctions) {
 			userMessage = message.toString();
