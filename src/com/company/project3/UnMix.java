@@ -40,6 +40,11 @@ public class UnMix {
 					int index = scan.nextInt();
 					insertbefore(token,index);
 					break;
+				case 'r':
+					int start = scan.nextInt();
+					int stop = scan.nextInt();
+					remove(start, stop);
+					break;
 
 				// put undo commands here
 			}
@@ -85,6 +90,26 @@ public class UnMix {
 				insert = ' ';
 			}
 			message.insert(insert,index);
+		}
+	}
+
+	private void remove(int start, int stop) {
+		int count = stop - start;
+		String piece = message.toString().substring(start, stop + 1);
+		message.delete(start);
+		while (count > 0) {
+			message.delete(start);
+			count--;
+		}
+		char[] list = piece.toCharArray();
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] == ' ') {
+				list[i] = '~';
+			}
+		}
+		piece = new String();
+		for (char c : list) {
+			piece += c;
 		}
 	}
 }

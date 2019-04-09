@@ -70,7 +70,7 @@ public class Mix {
                     delete(c);
                     break;
 				case "r":
-				    try {
+				    try { //remove
 				    	int start = scan.nextInt();
 				    	int stop = scan.nextInt();
 				    	if(start == 0 && stop == userMessage.length()-1){
@@ -78,7 +78,7 @@ public class Mix {
 						}
                         remove(start,stop);
                         break;
-                    }catch(Exception e){
+                    }catch(Exception e){ //replace
 				    	String delStr = scan.next();
 				    	String repStr = scan.next();
 				        replace(delStr, repStr);
@@ -138,7 +138,6 @@ public class Mix {
 	    for(char c : list){
 	        piece += c;
         }
-        System.out.println(piece);
 	    undoCommands = "b " + piece + " " + start + "\n" + undoCommands;
 	}
 
@@ -165,15 +164,23 @@ public class Mix {
         }
         char chr = c.charAt(0);
         char rep = r.charAt(0);
+        if(rep == '~'){
+        	rep = ' ';
+		}
         NodeD temp = message.top;
         int count = 0;
         while(temp != null){
             if(temp.getData().equals(chr) || (temp.getData().equals(' ') && chr == '~')){
                 temp.setData(rep);
+				undoCommands = "r " + (count+1) + " " + (count+1) + "\n" + undoCommands;
+				undoCommands = "b " + chr + " " + count + "\n" + undoCommands;
             }else
                 count++;
             temp = temp.getNext();
         }
+		if(rep == ' '){
+			rep = '~';
+		}
     }
 
 	private void cut(int start, int stop, int clipNum) {
