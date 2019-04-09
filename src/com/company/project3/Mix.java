@@ -2,6 +2,7 @@ package com.company.project3;
 
 import java.io.*;
 import java.util.Hashtable;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Mix {
@@ -51,11 +52,11 @@ public class Mix {
 			System.out.print("Command: \n");
 
 			// save state
-			DoubleLinkedList<Character> currMessage =  new DoubleLinkedList<>();
+			DoubleLinkedList<Character> currMessage =  message;
 			String currUndoCommands = undoCommands;
 
 			try {
-				String command = scan.next("[Qbdrpcxh]");
+				String command = scan.next("[Qbdrpcxzh]");
 
 				switch (command) {
 				case "Q":
@@ -85,6 +86,9 @@ public class Mix {
 				case "p":
 					paste(scan.nextInt(), scan.nextInt());
 					break;
+				case "z":
+					random();
+					break;
 				case "h":
 					helpPage();
 					break;
@@ -105,6 +109,9 @@ public class Mix {
 
 		} while (true);
 	}
+
+
+//Function Helper Methods ---------------------------------------------------------------
 
 	private void remove(int start, int stop) {
         int count = stop - start;
@@ -200,6 +207,54 @@ public class Mix {
 
 		out.println(undoCommands);
 		out.close();
+	}
+
+	private void random(){
+		Random rand = new Random();
+		int function = rand.nextInt(4);
+		int numFunctions = rand.nextInt(9)+1;
+		int count = 0;
+		while(count <= numFunctions) {
+			userMessage = message.toString();
+			//InsertBefore
+			if (function == 1) {
+
+				int index = rand.nextInt(userMessage.length());
+				char letter;
+				int numLetters = rand.nextInt(5) + 1;
+				String token = "";
+				for (int n = 0; n < numLetters; n++) {
+					letter = (char) (rand.nextInt(25) + 97);
+					token += letter;
+				}
+				insertbefore(token, index);
+
+			//Remove
+			} else if (function == 2) {
+				int start = rand.nextInt(userMessage.length());
+				int stop = start + rand.nextInt(userMessage.length() - start);
+				remove(start, stop);
+
+			//Delete
+			} else if (function == 3) {
+				char letter = (char) (rand.nextInt(25) + 97);
+				String l = "";
+				l += letter;
+				delete(l);
+
+			//Replace
+			} else {
+				char letter = (char) (rand.nextInt(25) + 97);
+				String delLetter = "";
+				delLetter += letter;
+				letter = (char) (rand.nextInt(25) + 97);
+				String repLetter = "";
+				repLetter += letter;
+				replace(delLetter, repLetter);
+			}
+
+			count++;
+		}
 	}
 
 	private void helpPage() {
