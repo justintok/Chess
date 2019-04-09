@@ -213,6 +213,7 @@ public class Mix {
             }else
                 message.insert(token.charAt(i),index);
         }
+        undoCommands = "r " + index + " " + (index + (token.length()-1)) + "\n" + undoCommands;
 	}
 
 	private void DisplayMessage() {
