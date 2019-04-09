@@ -34,13 +34,9 @@ public class Mix {
 
 	public void initLinkedList(){
         char[] charMessage = userMessage.toCharArray();
-        message.top = new NodeD();
-        message.top.setData(charMessage[0]);
-        message.top.setPrev(null);
-        message.top.setNext(new NodeD());
-        message.top.getNext().setData(charMessage[1]);
-        message.cursor = message.top.getNext();
-        for(int i = 2; i < charMessage.length; i++){
+        message.top = new NodeD<>(charMessage[0],new NodeD<>(),null);
+        message.cursor = message.top;
+        for(int i = 1; i < charMessage.length; i++){
             message.cursor.setNext(new NodeD(charMessage[i],null,message.cursor));
             message.cursor = message.cursor.getNext();
         }
@@ -71,7 +67,12 @@ public class Mix {
                     break;
 				case "r":
 				    try {
-                        remove(scan.nextInt(), scan.nextInt());
+				    	int start = scan.nextInt();
+				    	int stop = scan.nextInt();
+				    	if(start == 0 && stop == userMessage.length()-1){
+				    		throw new IllegalArgumentException("Cannot remove whole contents of message");
+						}
+                        remove(start,stop);
                         break;
                     }catch(Exception e){
 				        replace(scan.next(), scan.next());
@@ -211,11 +212,15 @@ public class Mix {
 
 	private void random(){
 		Random rand = new Random();
-		int function = rand.nextInt(4);
-		int numFunctions = rand.nextInt(9)+1;
+		int numFunctions = 1;//rand.nextInt(5)+1;
 		int count = 0;
-		while(count <= numFunctions) {
+		while(count < numFunctions) {
 			userMessage = message.toString();
+			int function = rand.nextInt(4)+1;
+			while(((function == 2 || function == 3) && userMessage.length() == 1)) {
+				function = rand.nextInt(4)+1;
+			}
+
 			//InsertBefore
 			if (function == 1) {
 
@@ -230,21 +235,28 @@ public class Mix {
 				insertbefore(token, index);
 
 			//Remove
-			} else if (function == 2) {
+			}
+			if (function == 2) {
 				int start = rand.nextInt(userMessage.length());
-				int stop = start + rand.nextInt(userMessage.length() - start);
+				int stop = start + rand.nextInt((userMessage.length() - 1) - start);
+				if(userMessage.length() == 2){
+					stop = start;
+				}
 				remove(start, stop);
 
 			//Delete
-			} else if (function == 3) {
-				char letter = (char) (rand.nextInt(25) + 97);
+			}
+			if (function == 3) {
+				char[] charPick = userMessage.toCharArray();
+				char letter = charPick[rand.nextInt(charPick.length)];
 				String l = "";
-				l += letter;
-				delete(l);
+				l += letter;delete(l);
 
 			//Replace
-			} else {
-				char letter = (char) (rand.nextInt(25) + 97);
+			}
+			if(function == 4){
+				char[] charPick = userMessage.toCharArray();
+				char letter = charPick[rand.nextInt(charPick.length)];
 				String delLetter = "";
 				delLetter += letter;
 				letter = (char) (rand.nextInt(25) + 97);
@@ -266,6 +278,7 @@ public class Mix {
 		System.out.println("\th\tmeans to show this help page");
 		System.out.println("\td *\tdeletes all instances of * found in the message" );
 		System.out.println("\tr # *\treplaces all # in the message with *" );
+		System.out.println("\tz\tdoes a random set of the above functions on the message" );
 
 	}
 }

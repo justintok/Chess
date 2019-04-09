@@ -61,13 +61,13 @@ public class DoubleLinkedList<E>  {
 		cursor.getNext().setPrev(cursor.getPrev());
 	}
 
-    public void insert(char character, int index) {
+    public void insert(E character, int index) {
         cursor = top;
 
         //If inserting at first index
         if(index == 0){
             NodeD temp = top;
-            top = new NodeD(character,temp,null);
+            top = new NodeD<>(character,temp,null);
             temp.setPrev(top);
             return;
         }
@@ -79,7 +79,7 @@ public class DoubleLinkedList<E>  {
             }
         }
 
-        NodeD temp = new NodeD(character,cursor,cursor.getPrev());
+        NodeD temp = new NodeD<>(character,cursor,cursor.getPrev());
         cursor.getPrev().setNext(temp);
         cursor.setPrev(temp);
     }
