@@ -107,7 +107,6 @@ public class Mix {
 			}
 			catch (Exception e ) {
 				System.out.println ("Error on input, previous state restored.\n");
-				e.printStackTrace();
 				scan = new Scanner(System.in);  // should completely flush the buffer
 
 				// restore state;
@@ -165,16 +164,21 @@ public class Mix {
         }
         char chr = c.charAt(0);
         char rep = r.charAt(0);
+        if(chr == ' '){
+        	chr = '~';
+		}
         if(rep == '~'){
         	rep = ' ';
 		}
         NodeD temp = message.top;
         int count = 0;
+        int undoCount = 1;
         while(temp != null){
             if(temp.getData().equals(chr) || (temp.getData().equals(' ') && chr == '~')){
                 temp.setData(rep);
-				undoCommands = "r " + (count+1) + " " + (count+1) + "\n" + undoCommands;
-				undoCommands = "b " + chr + " " + count + "\n" + undoCommands;
+				undoCommands = "r " + (count+undoCount) + " " + (count+undoCount) + "\n" + undoCommands;
+				undoCommands = "b " + chr + " " + (count+undoCount-1) + "\n" + undoCommands;
+				undoCount++;
             }else
                 count++;
             temp = temp.getNext();
@@ -280,6 +284,9 @@ public class Mix {
 			if (function == 3) {
 				char[] charPick = userMessage.toCharArray();
 				char letter = charPick[rand.nextInt(charPick.length)];
+				if(letter == ' '){
+					letter = '~';
+				}
 				String l = "";
 				l += letter;
 				delete(l);

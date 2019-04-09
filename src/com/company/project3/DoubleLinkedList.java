@@ -72,13 +72,25 @@ public class DoubleLinkedList<E>  {
             return;
         }
 
+        //Finds the index
         for (int i = 0; i < index; i++){
-            cursor = cursor.getNext();
+            NodeD temp = cursor;
+        	cursor = cursor.getNext();
+
+        	//Check for going out of bounds
             if (cursor == null) {
-                throw new IllegalArgumentException("given index is out of bounds");
+
+            	//if inserting just after last node, add to end of message
+            	if(i == index-1){
+            		temp.setNext(new NodeD(character,null,temp));
+					return;
+            	//If inserting more than one place beyond last node, throw error
+				}else
+                	throw new IllegalArgumentException("given index is out of bounds");
             }
         }
 
+        //Make new node for new character inserted
         NodeD temp = new NodeD<>(character,cursor,cursor.getPrev());
         cursor.getPrev().setNext(temp);
         cursor.setPrev(temp);

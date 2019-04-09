@@ -49,7 +49,7 @@ public class UnMix {
 				// put undo commands here
 			}
 		} catch (Exception e) {
-			System.out.println("Error in command!  Problem!!!! in undo commands\n");
+			System.out.println("Error in command!  Problem in undo commands\n");
 			e.printStackTrace();
 			System.exit(0);
 		}
@@ -62,7 +62,7 @@ public class UnMix {
 
 	private void unMixture(String filename, String userMessage) {
 		String original = UnMixUsingFile (filename, userMessage);
-		System.out.println ("The Original message was: " + original);
+		System.out.println ("\nThe original message was: " + original);
 	}
 
 
