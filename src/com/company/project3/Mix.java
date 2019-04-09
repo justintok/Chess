@@ -122,11 +122,24 @@ public class Mix {
 
 	private void remove(int start, int stop) {
         int count = stop - start;
+        String piece = message.toString().substring(start,stop+1);
         message.delete(start);
 	    while(count > 0){
             message.delete(start);
             count--;
         }
+        char[] list = piece.toCharArray();
+        for (int i = 0; i < list.length; i++) {
+            if(list[i] == ' '){
+                list[i] = '~';
+            }
+        }
+        piece = new String();
+	    for(char c : list){
+	        piece += c;
+        }
+        System.out.println(piece);
+	    undoCommands = "b " + piece + " " + start + "\n" + undoCommands;
 	}
 
     private void delete(String c) {
@@ -139,6 +152,7 @@ public class Mix {
 	    while(temp != null){
 	        if(temp.getData().equals(chr) || (temp.getData().equals(' ') && chr == '~')){
 	            message.delete(count);
+	            undoCommands = "b " + c + " " + count + "\n" + undoCommands;
             }else
             	count++;
 	        temp = temp.getNext();
@@ -187,7 +201,10 @@ public class Mix {
          
 	private void insertbefore(String token, int index) {
         for(int i = token.length()-1; i >= 0; i--){
-            message.insert(token.charAt(i),index);
+            if(token.charAt(i) == '~'){
+                message.insert(' ',index);
+            }else
+                message.insert(token.charAt(i),index);
         }
 	}
 
