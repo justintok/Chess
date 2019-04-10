@@ -3,21 +3,38 @@ import java.io.*;
 import java.util.Scanner;
 
 public class UnMix {
+
+	/**
+	 * Holds the mixed up message and is used to unmix
+	 */
 	private DoubleLinkedList<Character> message;
+
+	/**
+	 * The mixed up message
+	 */
 	private String userMessage;
 
+	/**
+	 * Constructor
+	 */
 	public UnMix() {
 		message = new DoubleLinkedList<Character>();
 	}
 
+	/**
+	 * The Main method
+	 * @param args The filename of the undo commands and the mixed up message
+	 */
 	public static void main(String[] args) {
 	    UnMix v = new UnMix();
 	    v.userMessage = args[1];
 	    v.initLinkedList();
-	    //v.unMixture(fileName,v.userMessage);
 		v.unMixture(args[0], args[1]);
 	}
 
+	/**
+	 * Enters the user's message into a linked list
+	 */
 	public void initLinkedList(){
 		char[] charMessage = userMessage.toCharArray();
 		message.top = new NodeD<>(charMessage[0],new NodeD<>(),null);
@@ -28,6 +45,11 @@ public class UnMix {
 		}
 	}
 
+	/**
+	 * Enacts the given command on the linked list that holds the message
+	 * @param command The given undo command
+	 * @return The new message after the command has been processed
+	 */
 	public String processCommand(String command) {
 		Scanner scan = new Scanner(command);
 		char charInput;
@@ -60,12 +82,22 @@ public class UnMix {
 		return message.toString();
 	}
 
+	/**
+	 * Runs the undo commands and prints the final message
+	 * @param filename The name of the file that holds the undo commands
+	 * @param userMessage The mixed up message
+	 */
 	private void unMixture(String filename, String userMessage) {
 		String original = UnMixUsingFile (filename, userMessage);
 		System.out.println ("\nThe original message was: " + original);
 	}
 
-
+	/**
+	 * Takes commands found in the undo command file and processes them
+	 * @param filename the name of the file that holds the undo commands
+	 * @param userMessage the mixed up message
+	 * @return The message after all commands in the undo command file have been processed
+	 */
 	public String UnMixUsingFile(String filename, String userMessage) {
 		Scanner scanner = null;
 		try {
@@ -84,6 +116,11 @@ public class UnMix {
 
 // Undo Commands ---------------------------------------------------------
 
+	/**
+	 * Inserts a string from the clip boards at the given index
+	 * @param token The string that the user wants to insert
+	 * @param index  The index at which the user wants the string to be inserted
+	 */
 	private void insertbefore(String token, int index) {
 		for(int i = token.length()-1; i >= 0; i--){
 			char insert = token.charAt(i);
@@ -94,6 +131,11 @@ public class UnMix {
 		}
 	}
 
+	/**
+	 * Removes a given string from the message
+	 * @param start The starting index of the string to be removed
+	 * @param stop The end index of the string to be removed
+	 */
 	private void remove(int start, int stop) {
 		int count = stop - start;
 		String piece;
