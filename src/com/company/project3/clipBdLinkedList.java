@@ -12,25 +12,26 @@ public class clipBdLinkedList {
     }
 
 
-    public void addClip(String clip){
+    public void addClip(String clip, int number){
 
         if (top == null){
-            top.setData(clip);
+            top = new NodeCB(clip,null,null, number);
         }
         else {
             NodeCB temp = top;
-            top = new NodeCB(clip, temp, null);
+            top = new NodeCB(clip, temp, null, number);
             temp.setPrev(top);
         }
     }
 
-    public NodeCB getClip(int position){
+    public String getClip(int number){
         NodeCB temp = top;
-        for (int i = 0; i < position; i++)
-            if(temp.getClipBoardNumber() == position){
-                return temp;
+        while(temp != null) {
+            if (temp.getClipBoardNumber() == number) {
+                return temp.getData();
             }
             temp = temp.getNext();
+        }
         return null;
     }
 

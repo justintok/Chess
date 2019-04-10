@@ -19,6 +19,7 @@ public class Mix {
 		scan = new Scanner(System.in);
 		message = new DoubleLinkedList<Character>();
 		clipBoards = new Hashtable<Integer, DoubleLinkedList<Character>>();
+		clipBoard = new clipBdLinkedList();
 
 		undoCommands = "";
 	}
@@ -106,7 +107,16 @@ public class Mix {
 				scan.nextLine();   // should flush the buffer
 			}
 			catch (Exception e ) {
-				System.out.println ("Error on input, previous state restored.\n");
+				System.out.println ("Error on input, previous state restored.");
+				String errorMessage = "";
+				for(int i = 0; i < e.toString().length(); i++){
+					if(e.toString().charAt(i) == ':') {
+						errorMessage = e.toString().substring(i + 1);
+						break;
+					}
+				}
+				System.out.print(errorMessage + "\n");
+				e.printStackTrace();
 				scan = new Scanner(System.in);  // should completely flush the buffer
 
 				// restore state;
@@ -128,6 +138,8 @@ public class Mix {
             message.delete(start);
             count--;
         }
+
+	    //Below code is for undo command
         char[] list = piece.toCharArray();
         for (int i = 0; i < list.length; i++) {
             if(list[i] == ' '){
@@ -186,26 +198,31 @@ public class Mix {
     }
 
 	private void cut(int start, int stop, int clipNum) {
-		remove(start,stop);
 		copy(start,stop,clipNum);
-
+		remove(start,stop);
 	}
 
 	private void copy(int start, int stop, int clipNum) {
 		int count = stop -start;
+		if(count < 0){
+			throw new IllegalArgumentException("stop input may not come earlier in the string than star");
+		}
 		String temp = "";
-		for (int i = 0; i<= count;i++){
-			temp = temp + message.get(start+i);
+		for (int i = start; i != stop+1;i++){
+			temp += message.get(i);
 
 		}
-		clipBoard.addClip(temp);
+		clipBoard.addClip(temp,clipNum);
 
 	}
 
 	private void paste( int index, int clipNum) {
-		String temp = "" + clipBoard.getClip(clipNum);
-		insertbefore(temp,index);
-
+		if(clipBoard.getClip(clipNum) != null) {
+			String temp = "" + clipBoard.getClip(clipNum);
+			insertbefore(temp, index);
+		}else{
+			throw new IllegalArgumentException("The given clipboard number does not have a value");
+		}
 	}
          
 	private void insertbefore(String token, int index) {

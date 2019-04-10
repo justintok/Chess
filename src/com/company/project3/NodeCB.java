@@ -7,10 +7,11 @@ public class NodeCB {
     private NodeCB prev;
     private String data;
 
-    public NodeCB(String data, NodeCB next, NodeCB prev) {
+    public NodeCB(String data, NodeCB next, NodeCB prev, int number) {
         this.next = next;
         this.prev = prev;
         this.data = data;
+        this.clipBoardNumber = number;
     }
 
     public void setData(String data){
