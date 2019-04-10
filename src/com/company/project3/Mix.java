@@ -7,32 +7,63 @@ import java.util.Scanner;
 
 public class Mix {
 
+	/**
+	 * Holds the user's message as it is mixed
+	 */
 	private DoubleLinkedList<Character> message;
+
+	/**
+	 * Contains the commands needed to undo the mixed up message
+	 */
 	private String undoCommands;
-	private Hashtable<Integer, DoubleLinkedList<Character>> clipBoards;
+
+	/**
+	 * Holds each string that has been copied/cut from the message
+	 */
 	private clipBdLinkedList clipBoard;
 
+	/**
+	 * the original message entered by the user
+	 */
 	private String userMessage;
+
+	/**
+	 * A text scanner used to take the user's input
+	 */
 	private Scanner scan;
 
+	/**
+	 * Constructor
+	 */
 	public Mix() {
 		scan = new Scanner(System.in);
 		message = new DoubleLinkedList<Character>();
-		clipBoards = new Hashtable<Integer, DoubleLinkedList<Character>>();
 		clipBoard = new clipBdLinkedList();
 
 		undoCommands = "";
 	}
 
+	/**
+	 * The Main method
+	 * @param args Takes a String argument as the user's message
+	 */
 	public static void main(String[] args) {
 		Mix mix = new Mix();
-		System.out.println("Enter your message: ");
-		Scanner scnr = new Scanner(System.in);
-		mix.userMessage = scnr.nextLine();
+		if(args.length == 0) {
+			System.out.println("Enter your message: ");
+			Scanner scnr = new Scanner(System.in);
+			mix.userMessage = scnr.nextLine();
+		}else{
+			mix.userMessage = args[0];
+			System.out.println("\n" + mix.userMessage);
+		}
 		mix.initLinkedList();
 		mix.mixture();
 	}
 
+	/**
+	 * Enters the user's message into a linked list
+	 */
 	public void initLinkedList(){
         char[] charMessage = userMessage.toCharArray();
         message.top = new NodeD<>(charMessage[0],new NodeD<>(),null);
@@ -43,6 +74,9 @@ public class Mix {
         }
     }
 
+	/**
+	 * Asks for commands from the user to mix up the message
+	 */
 	private void mixture() {
 		do {
 			DisplayMessage();
@@ -146,6 +180,11 @@ public class Mix {
 
 //Function Helper Methods ---------------------------------------------------------------
 
+	/**
+	 * Removes a given string from the message
+	 * @param start The starting index of the string to be removed
+	 * @param stop The end index of the string to be removed
+	 */
 	private void remove(int start, int stop) {
         int count = stop - start;
         String piece = message.toString().substring(start,stop+1);
@@ -169,6 +208,10 @@ public class Mix {
 	    undoCommands = "b " + piece + " " + start + "\n" + undoCommands;
 	}
 
+	/**
+	 * Deletes all instances of the given character in the message
+	 * @param c The character the user wants to delete
+	 */
     private void delete(String c) {
 	    if(c.length() > 1 || c.length() < 1){
 	        throw new IllegalArgumentException("Input is not a single character");
@@ -186,8 +229,13 @@ public class Mix {
         }
     }
 
-    private void replace(String c, String r){
-        if((c.length() > 1 || c.length() < 1) && (r.length() > 1 || r.length() < 1)){
+	/**
+	 * Replaces a given character with a different character
+	 * @param c The character that the user wants to be replaced
+	 * @param r The character that the user wants to replace c with
+	 */
+	private void replace(String c, String r){
+        if((c.length() > 1 || c.length() < 1) || (r.length() > 1 || r.length() < 1)){
             throw new IllegalArgumentException("at least one of the inputs is not a single character");
         }
         char chr = c.charAt(0);
@@ -213,11 +261,23 @@ public class Mix {
         }
     }
 
+	/**
+	 * Removes a string within the message and saves it to a clip board
+	 * @param start The starting index of the string to be cut
+	 * @param stop The end index of the string to be cut
+	 * @param clipNum The number of the clip board to which the string will be saved
+	 */
 	private void cut(int start, int stop, int clipNum) {
 		copy(start,stop,clipNum);
 		remove(start,stop);
 	}
 
+	/**
+	 * Copies a string within the message and saves it to a clip board
+	 * @param start The starting index of the string to be cut
+	 * @param stop The end index of the string to be cut
+	 * @param clipNum The number of the clip board to which the string will be saved
+	 */
 	private void copy(int start, int stop, int clipNum) {
 		int count = stop -start;
 		if(count < 0){
@@ -229,9 +289,15 @@ public class Mix {
 
 		}
 		clipBoard.addClip(temp,clipNum);
+		System.out.println("Clip board => '" + temp + "'");
 
 	}
 
+	/**
+	 * Inserts a string from the clip boards at the given index
+	 * @param index The index at which the user wants the string to be inserted
+	 * @param clipNum The number of the clip board that holds the string to be inserted
+	 */
 	private void paste( int index, int clipNum) {
 		if(clipBoard.getClip(clipNum) != null) {
 			String temp = "" + clipBoard.getClip(clipNum);
@@ -240,7 +306,12 @@ public class Mix {
 			throw new IllegalArgumentException("The given clipboard number does not have a value");
 		}
 	}
-         
+
+	/**
+	 * Inserts a string from the clip boards at the given index
+	 * @param token The string that the user wants to insert
+	 * @param index  The index at which the user wants the string to be inserted
+	 */
 	private void insertbefore(String token, int index) {
         for(int i = token.length()-1; i >= 0; i--){
             if(token.charAt(i) == '~'){
@@ -251,6 +322,9 @@ public class Mix {
         undoCommands = "r " + index + " " + (index + (token.length()-1)) + "\n" + undoCommands;
 	}
 
+	/**
+	 * Displays the user's message with aligning indexes
+	 */
 	private void DisplayMessage() {
 		System.out.print ("Message:\n");
 		userMessage = message.toString();
@@ -262,6 +336,10 @@ public class Mix {
 		System.out.format ("\n");
 	}
 
+	/**
+	 * Saves the undo commands to the given file
+	 * @param filename The name of the file to which the undo commands will be saved
+	 */
 	public void save(String filename) {
 
 		PrintWriter out = null;
@@ -276,6 +354,9 @@ public class Mix {
 		out.close();
 	}
 
+	/**
+	 * Runs multiple insert, remove, delete, and replace commands to mix up the message
+	 */
 	private void random(){
 		Random rand = new Random();
 		int numFunctions = rand.nextInt(6)+5;
@@ -341,6 +422,9 @@ public class Mix {
 		}
 	}
 
+	/**
+	 * Displays a list of all commands and their syntax available to the user
+	 */
 	private void helpPage() {
 		System.out.println("Commands:");
 		System.out.println("\tQ filename	means, quit! " + " save to filename" );			
