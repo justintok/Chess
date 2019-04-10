@@ -62,9 +62,13 @@ public class Mix {
 					System.out.println ("\nFinal mixed up message: \"" + message+"\"");
 					System.exit(0);
 				case "b":
-					String token = scan.next();
-					int index = scan.nextInt();
-					insertbefore(token,index);
+					try {
+						String token = scan.next();
+						int index = scan.nextInt();
+						insertbefore(token, index);
+					}catch(Exception e){
+						throw new IllegalArgumentException("The Insert command should be entered in the form 'b * #' with * being the string to be inserted and # the index at which to be inserted.\n");
+					}
 					break;
 				case "d":
 					String c = scan.next();
@@ -86,13 +90,25 @@ public class Mix {
 				        break;
                     }
 				case "c":
-					copy(scan.nextInt(), scan.nextInt(), scan.nextInt());
+					try {
+						copy(scan.nextInt(), scan.nextInt(), scan.nextInt());
+					}catch(Exception e){
+						throw new IllegalArgumentException("The Copy command should be entered in the form 'c # # #' with # being integer values.\nThe integers represent the start, stop, and clipboard number respectively\n");
+					}
 					break;
 				case "x":
-					cut(scan.nextInt(), scan.nextInt(), scan.nextInt());
+					try {
+						cut(scan.nextInt(), scan.nextInt(), scan.nextInt());
+					}catch(Exception e){
+						throw new IllegalArgumentException("The Cut command should be entered in the form 'x # # #' with # being integer values.\nThe integers represent the start, stop, and clipboard number respectively\n");
+					}
 					break;
 				case "p":
+					try{
 					paste(scan.nextInt(), scan.nextInt());
+					}catch(Exception e){
+						throw new IllegalArgumentException("The Paste command should be entered in the form 'p # #' with # being integer values.\nThe integers represent the paste-index and clipboard number respectively\n");
+					}
 					break;
 				case "z":
 					random();
@@ -100,23 +116,23 @@ public class Mix {
 				case "h":
 					helpPage();
 					break;
-
-					// all the rest of the commands have not been done
-                    // No "real" error checking has been done.
 				}
 				scan.nextLine();   // should flush the buffer
 			}
 			catch (Exception e ) {
-				System.out.println ("Error on input, previous state restored.");
+				System.out.println ("Error on input");
+
+				//Prints what the user entered incorrectly
 				String errorMessage = "";
 				for(int i = 0; i < e.toString().length(); i++){
 					if(e.toString().charAt(i) == ':') {
-						errorMessage = e.toString().substring(i + 1);
+						errorMessage = e.toString().substring(i + 2);
 						break;
 					}
 				}
 				System.out.print(errorMessage + "\n");
-				e.printStackTrace();
+				System.out.println("Previous state restored.");
+
 				scan = new Scanner(System.in);  // should completely flush the buffer
 
 				// restore state;
@@ -334,6 +350,9 @@ public class Mix {
 		System.out.println("\th\tmeans to show this help page");
 		System.out.println("\td *\tdeletes all instances of * found in the message" );
 		System.out.println("\tr # *\treplaces all # in the message with *" );
+		System.out.println("\tc # * &\tcopies the string between # and * to the & clipboard" );
+		System.out.println("\tx # * &\tcuts the string between # and * to the & clipboard" );
+		System.out.println("\tp # * \tpastes the string from the * clipboard at the # index" );
 		System.out.println("\tz\tdoes a random set of the above functions on the message" );
 
 	}
