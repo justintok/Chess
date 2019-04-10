@@ -3,15 +3,29 @@ package com.company.project3;
 
 
 public class clipBdLinkedList {
-    //LinkedList<NodeCB> CBLinkedList = new LinkedList<NodeCB>();
+
+    /**
+     * The Top clip board node
+     */
     private NodeCB top;
+
+    /**
+     * The last clip board node
+     */
     private NodeCB tail;
 
+    /**
+     * Constructor
+     */
     public clipBdLinkedList() {
         tail = top = null;
     }
 
-
+    /******************************************************************************************
+     * Adds a new clip board to the linked list
+     * @param clip The string to be saved
+     * @param number The clip board number
+     */
     public void addClip(String clip, int number){
 
         if (top == null){
@@ -24,6 +38,11 @@ public class clipBdLinkedList {
         }
     }
 
+    /******************************************************************************************
+     * Returns the string of the clip board at the given clipboard number
+     * @param number The clip board number
+     * @return The string at the given clip board number
+     */
     public String getClip(int number){
         NodeCB temp = top;
         while(temp != null) {
@@ -34,8 +53,5 @@ public class clipBdLinkedList {
         }
         return null;
     }
-
-
-    // create methods you need.
 
 }

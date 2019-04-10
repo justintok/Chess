@@ -43,7 +43,7 @@ public class Mix {
 		undoCommands = "";
 	}
 
-	/**
+	/******************************************************************************************
 	 * The Main method
 	 * @param args Takes a String argument as the user's message
 	 */
@@ -61,7 +61,7 @@ public class Mix {
 		mix.mixture();
 	}
 
-	/**
+	/******************************************************************************************
 	 * Enters the user's message into a linked list
 	 */
 	public void initLinkedList(){
@@ -74,7 +74,7 @@ public class Mix {
         }
     }
 
-	/**
+	/******************************************************************************************
 	 * Asks for commands from the user to mix up the message
 	 */
 	private void mixture() {
@@ -180,7 +180,7 @@ public class Mix {
 
 //Function Helper Methods ---------------------------------------------------------------
 
-	/**
+	/******************************************************************************************
 	 * Removes a given string from the message
 	 * @param start The starting index of the string to be removed
 	 * @param stop The end index of the string to be removed
@@ -208,7 +208,7 @@ public class Mix {
 	    undoCommands = "b " + piece + " " + start + "\n" + undoCommands;
 	}
 
-	/**
+	/******************************************************************************************
 	 * Deletes all instances of the given character in the message
 	 * @param c The character the user wants to delete
 	 */
@@ -229,7 +229,7 @@ public class Mix {
         }
     }
 
-	/**
+	/******************************************************************************************
 	 * Replaces a given character with a different character
 	 * @param c The character that the user wants to be replaced
 	 * @param r The character that the user wants to replace c with
@@ -261,7 +261,7 @@ public class Mix {
         }
     }
 
-	/**
+	/******************************************************************************************
 	 * Removes a string within the message and saves it to a clip board
 	 * @param start The starting index of the string to be cut
 	 * @param stop The end index of the string to be cut
@@ -272,7 +272,7 @@ public class Mix {
 		remove(start,stop);
 	}
 
-	/**
+	/******************************************************************************************
 	 * Copies a string within the message and saves it to a clip board
 	 * @param start The starting index of the string to be cut
 	 * @param stop The end index of the string to be cut
@@ -293,7 +293,7 @@ public class Mix {
 
 	}
 
-	/**
+	/******************************************************************************************
 	 * Inserts a string from the clip boards at the given index
 	 * @param index The index at which the user wants the string to be inserted
 	 * @param clipNum The number of the clip board that holds the string to be inserted
@@ -307,7 +307,7 @@ public class Mix {
 		}
 	}
 
-	/**
+	/******************************************************************************************
 	 * Inserts a string from the clip boards at the given index
 	 * @param token The string that the user wants to insert
 	 * @param index  The index at which the user wants the string to be inserted
@@ -322,7 +322,7 @@ public class Mix {
         undoCommands = "r " + index + " " + (index + (token.length()-1)) + "\n" + undoCommands;
 	}
 
-	/**
+	/******************************************************************************************
 	 * Displays the user's message with aligning indexes
 	 */
 	private void DisplayMessage() {
@@ -336,7 +336,7 @@ public class Mix {
 		System.out.format ("\n");
 	}
 
-	/**
+	/******************************************************************************************
 	 * Saves the undo commands to the given file
 	 * @param filename The name of the file to which the undo commands will be saved
 	 */
@@ -354,7 +354,7 @@ public class Mix {
 		out.close();
 	}
 
-	/**
+	/******************************************************************************************
 	 * Runs multiple insert, remove, delete, and replace commands to mix up the message
 	 */
 	private void random(){
@@ -422,7 +422,7 @@ public class Mix {
 		}
 	}
 
-	/**
+	/******************************************************************************************
 	 * Displays a list of all commands and their syntax available to the user
 	 */
 	private void helpPage() {
